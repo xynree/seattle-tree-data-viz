@@ -1,10 +1,10 @@
-import { useRef, useState } from "react";
-import DeckGL, { type DeckGLRef } from "@deck.gl/react";
+import DeckGL from "@deck.gl/react";
 import { BaseMapLayer } from "../layers/BaseMapLayer";
 import { TreeLayer } from "../layers/TreeLayer";
 import { useUserLocation } from "../hooks/useUserLocation";
 import { useTreesInView } from "../hooks/useTreesInView";
 import TreePopup from "./TreePopup";
+import { useState } from "react";
 
 export default function MapView() {
   const [viewState, setViewState] = useUserLocation();

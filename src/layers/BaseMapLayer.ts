@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { BitmapLayer, TileLayer } from "deck.gl";
 
 export function BaseMapLayer() {

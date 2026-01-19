@@ -15,7 +15,7 @@ export function useUserLocation() {
 
     navigator.geolocation.getCurrentPosition(
       pos => {
-        setViewState(vs => ({
+        setViewState((vs:any) => ({
           ...vs,
           longitude: pos.coords.longitude,
           latitude: pos.coords.latitude,

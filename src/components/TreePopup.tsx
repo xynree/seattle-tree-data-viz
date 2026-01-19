@@ -16,7 +16,6 @@ export default function TreePopup({
   x,
   y,
   feature,
-  onClose,
 }: TreePopupProps) {
   const p = feature.properties ?? {};
 
