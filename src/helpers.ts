@@ -28,3 +28,28 @@ export function filterGeoJSONByBounds(features: any[], bounds: any) {
     );
   });
 }
+
+export function makeArcGISViewportQuery(bounds: {
+  west: number;
+  south: number;
+  east: number;
+  north: number;
+}) {
+  const geometry = {
+    xmin: bounds.west,
+    ymin: bounds.south,
+    xmax: bounds.east,
+    ymax: bounds.north,
+    spatialReference: { wkid: 4326 },
+  };
+
+  return (
+    "https://services.arcgis.com/ZOyb2t4B0UYuYNYH/arcgis/rest/services/SDOT_Trees_CDL/FeatureServer/0/query" +
+    `?geometry=${encodeURIComponent(JSON.stringify(geometry))}` +
+    "&geometryType=esriGeometryEnvelope" +
+    "&spatialRel=esriSpatialRelIntersects" +
+    "&outFields=*" +
+    "&outSR=4326" +
+    "&f=geojson"
+  );
+}
