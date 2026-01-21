@@ -1,9 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 
-// In-memory cache
 const imageCache: Record<string, string | null> = {};
 
-export default function WikipediaImage({ scientificName, width = 100 }: { scientificName: string, width?: number}) {
+export default function WikipediaImage({ scientificName }: { scientificName: string, width?: number }) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const previousNameRef = useRef<string | null>(null);
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
@@ -40,7 +39,7 @@ export default function WikipediaImage({ scientificName, width = 100 }: { scient
           imageCache[scientificName] = null;
           setImageUrl(null);
         });
-    }, 500); // debounce 500ms
+    }, 800); // debounce
 
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -50,10 +49,13 @@ export default function WikipediaImage({ scientificName, width = 100 }: { scient
   if (!imageUrl) return null;
 
   return (
-    <img
-      src={imageUrl}
-      alt={scientificName}
-      style={{ width, height: "auto", marginBottom: 6, borderRadius: 4 }}
-    />
+    <div className="bg-gray-200 rounded-lg my-2">
+      <img
+        src={imageUrl}
+        alt={scientificName}
+        className="w-full object-contain max-h-48"
+      />
+    </div>
+
   );
 }

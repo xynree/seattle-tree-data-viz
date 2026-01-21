@@ -9,12 +9,17 @@ import { useState } from "react";
 import WelcomeOverlay from "./WelcomeOverlay";
 import { DEFAULT_CONTROLS } from "../config/controls.config";
 import AttributionOverlay from "./AttributionOverlay";
+import type { TreeFeature } from "../types/types";
 
 
 export default function MapView() {
   const [viewState, setViewState] = useUserLocation();
   const trees = useTreesInView(viewState);
-  const [popup, setPopup] = useState<any>(null);
+  const [popup, setPopup] = useState<{
+    x: number,
+    y: number,
+    feature: TreeFeature
+  }>(null);
 
   const [options, setOptions] = useState(DEFAULT_CONTROLS)
 
@@ -58,14 +63,10 @@ export default function MapView() {
           height: "100vh",
         }}
       >
-        {popup && (
-          <TreePopup
-            x={popup.x}
-            y={popup.y}
-            feature={popup.feature}
-            onClose={() => setPopup(null)}
-          />
-        )}
+
+        <TreePopup
+          popup={popup}
+        />
       </DeckGL>
     </div>
   );

@@ -72,3 +72,8 @@ export function makeArcGISViewportQuery(bounds: {
     "&f=geojson"
   );
 }
+
+export function formatDate(ms?: number | null) {
+  if (!ms) return "—";
+  return new Date(ms).toLocaleDateString();
+}

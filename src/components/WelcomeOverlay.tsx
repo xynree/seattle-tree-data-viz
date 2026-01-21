@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-
 export default function WelcomeOverlay() {
   const [closed, setClosed] = useState(false)
 
@@ -15,7 +14,6 @@ export default function WelcomeOverlay() {
           <p className="font-medium">Welcome!</p>
 
           <div className="text-gray-700 text-sm">
-
             <p >
               This interactive map visualizes all publicly maintained street trees tracked by the Seattle Department of Transportation (SDOT) across the Seattle metro area.
             </p>
@@ -24,7 +22,6 @@ export default function WelcomeOverlay() {
               Data is sourced from the City of Seattle's <a className="text-blue-700 underline" href="https://data-seattlecitygis.opendata.arcgis.com/datasets/SeattleCityGIS::sdot-trees">SDOT Trees</a> dataset.
             </p>
           </div>
-
 
         </div>
         <span onClick={() => setClosed(true)} className="material-symbols-outlined hover:bg-gray-100 h-min p-2 rounded-xl cursor-pointer">

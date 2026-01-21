@@ -1,4 +1,4 @@
-import type { ControlOptions } from "../types/controls.types";
+import type { ControlOptions } from "../types/types";
 
 type ControlsOverlayProps = {
   options: ControlOptions,
