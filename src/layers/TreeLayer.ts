@@ -3,7 +3,7 @@ import { COORDINATE_SYSTEM } from "deck.gl";
 import { hashToUnit } from "../helpers";
 import type { ControlOptions } from "../types/controls.types";
 
-const treeModel = "./models/tree2.glb";
+const treeModel = "/seattle-tree-data-viz/models/tree2.glb";
 
 type TreeLayerProps = {
   trees: any[];
@@ -58,7 +58,12 @@ export function TreeLayer({ trees, options}: TreeLayerProps) {
       // Scale from 0.3 to 3.0 for good visual range
       const normalizedScale = 0.3 + (diameter / 50) * 2.7;
       
-      return [normalizedScale, normalizedScale, normalizedScale] as [number, number, number];
+      // Clamp the final scale to min/max values
+      const minScale = 0.1;
+      const maxScale = 6.0;
+      const clampedScale = Math.max(minScale, Math.min(maxScale, normalizedScale));
+      
+      return [clampedScale, clampedScale, clampedScale] as [number, number, number];
     },
     _lighting: "pbr",
   });
