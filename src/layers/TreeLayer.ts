@@ -16,7 +16,6 @@ export function TreeLayer({ trees, sizeScale = 1, showRemoved = false }: TreeLay
   if (!showRemoved) {
     trees = trees.filter((t) => t.properties.CURRENT_STATUS !== "REMOVED")
   }
-  console.log(trees)
 
   return new ScenegraphLayer({
     id: "trees",

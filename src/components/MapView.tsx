@@ -6,6 +6,7 @@ import { useTreesInView } from "../hooks/useTreesInView";
 import TreePopup from "./TreePopup";
 import ControlsOverlay from "./ControlsOverlay";
 import { useState } from "react";
+import WelcomeOverlay from "./WelcomeOverlay";
 
 export default function MapView() {
   const [viewState, setViewState] = useUserLocation();
@@ -24,6 +25,7 @@ export default function MapView() {
 
   return (
     <div className="w-screen h-screen">
+      <WelcomeOverlay/>
       <ControlsOverlay onStateChange={(state) => setShowRemoved(state.showRemoved)} />
       <DeckGL
         initialViewState={viewState}
