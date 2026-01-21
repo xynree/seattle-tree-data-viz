@@ -7,23 +7,20 @@ import TreePopup from "./TreePopup";
 import ControlsOverlay from "./ControlsOverlay";
 import { useState } from "react";
 import WelcomeOverlay from "./WelcomeOverlay";
+import { DEFAULT_CONTROLS } from "../config/controls.config";
+
 
 export default function MapView() {
   const [viewState, setViewState] = useUserLocation();
   const trees = useTreesInView(viewState);
   const [popup, setPopup] = useState<any>(null);
 
-  const [options, setOptions] = useState({
-    showRemoved: false,
-    showPrivate: true,
-    showPlanned: false
-  })
+  const [options, setOptions] = useState(DEFAULT_CONTROLS)
 
   const layers = [
     BaseMapLayer(),
     TreeLayer({
       trees,
-      sizeScale: 1,
       options
     }),
   ]

@@ -10,12 +10,13 @@ export default function ControlsOverlay({ options, setOptions }: ControlsOverlay
     setOptions({
       showRemoved: id === "show-removed" ? checked : options.showRemoved,
       showPrivate: id === "show-private" ? checked : options.showPrivate,
-      showPlanned: id === "show-planned" ? checked : options.showPlanned
+      showPlanned: id === "show-planned" ? checked : options.showPlanned,
+      scaleBySize: id === "scale-by-size" ? checked : options.scaleBySize
     })
   };
 
   return (
-    <div className=" bg-white rounded-xl z-10 absolute left-8 top-4 p-4 shadow-md">
+    <div className="flex flex-col gap-1 bg-white rounded-xl z-10 absolute left-8 top-4 p-4 shadow-md">
       <div className="flex items-center gap-2">
         <input
           type="checkbox"
@@ -36,7 +37,7 @@ export default function ControlsOverlay({ options, setOptions }: ControlsOverlay
           checked={options.showPlanned}
           onChange={(e) => handleChange(e.target.checked, e.target.id)}
         />
-        <label htmlFor="show-private" className="text-sm">
+        <label htmlFor="show-planned" className="text-sm">
           Planned
         </label>
       </div>
@@ -50,6 +51,20 @@ export default function ControlsOverlay({ options, setOptions }: ControlsOverlay
         />
         <label htmlFor="show-private" className="text-sm">
           Privately Owned
+        </label>
+      </div>
+
+      <hr className="my-1" />
+
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="scale-by-size"
+          checked={options.scaleBySize}
+          onChange={(e) => handleChange(e.target.checked, e.target.id)}
+        />
+        <label htmlFor="scale-by-size" className="text-sm">
+          Scale By Size
         </label>
       </div>
     </div>

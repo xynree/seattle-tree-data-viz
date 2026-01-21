@@ -7,11 +7,10 @@ const treeModel = "./models/tree2.glb";
 
 type TreeLayerProps = {
   trees: any[];
-  sizeScale?: number;
   options: ControlOptions
 };
 
-export function TreeLayer({ trees, sizeScale = 1, options}: TreeLayerProps) {
+export function TreeLayer({ trees, options}: TreeLayerProps) {
   if (!trees.length) return null;
 
   if (!options.showRemoved) {
@@ -38,7 +37,20 @@ export function TreeLayer({ trees, sizeScale = 1, options}: TreeLayerProps) {
       return [yaw, 0, 0];                 // yaw, pitch, roll
     },    
     coordinateSystem: COORDINATE_SYSTEM.LNGLAT,
-    sizeScale,
+    sizeScale: 1,
+    getScale: f => {
+      if (!options.scaleBySize) return [1, 1, 1] as [number, number, number];
+      
+      const diameter = f.properties?.DIAM;
+      if (!diameter || diameter <= 0) return [1, 1, 1] as [number, number, number];
+      
+      // Normalize diameter to a reasonable scale range
+      // Trees typically range from 2-50 inches diameter
+      // Scale from 0.3 to 3.0 for good visual range
+      const normalizedScale = 0.3 + (diameter / 50) * 2.7;
+      
+      return [normalizedScale, normalizedScale, normalizedScale] as [number, number, number];
+    },
     _lighting: "pbr",
   });
 }
