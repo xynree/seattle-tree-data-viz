@@ -11,6 +11,7 @@ import { DEFAULT_CONTROLS } from "../config/controls.config";
 import AttributionOverlay from "./AttributionOverlay";
 import type { TreeFeature } from "../types/types";
 import MousePopup from "./MousePopup";
+import AggregationOverlay from "./AggregationOverlay";
 
 
 export default function MapView() {
@@ -35,23 +36,23 @@ export default function MapView() {
   return (
     <div className="w-screen h-screen">
 
-
       {/* Left Panels */}
-      <div className="absolute top-8 left-8">
+      <div className="absolute flex flex-col gap-4 top-4 left-4">
         <TreePopup
           feature={popup?.feature}
         />
-      </div>
-
-      {/* Right Panels */}
-      <div className="absolute top-8 right-8">
-        <ControlsOverlay options={options} setOptions={setOptions} />
+        <AggregationOverlay />
       </div>
 
       <WelcomeOverlay />
       <AttributionOverlay />
       {popup ? <MousePopup popup={popup} />
         : ''}
+
+      {/* Right Panels */}
+      <div className="absolute top-4 right-4">
+        <ControlsOverlay options={options} setOptions={setOptions} />
+      </div>
 
       {/* Map */}
       <DeckGL
