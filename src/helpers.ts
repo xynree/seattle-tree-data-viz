@@ -1,9 +1,10 @@
 import { WebMercatorViewport } from "deck.gl";
+import type { TreeFeature } from "./types/types";
 
 // Returns bounds in degrees
 export function getViewportBounds(viewState) {
   const vp = new WebMercatorViewport(viewState);
-  
+
   // screen coordinates of the four corners
   const corners = [
     [0, 0], // top-left
@@ -14,9 +15,9 @@ export function getViewportBounds(viewState) {
 
   // unproject to lon/lat
   const lngLats = corners.map(([x, y]) => vp.unproject([x, y]));
-  
-  const lons = lngLats.map(c => c[0]);
-  const lats = lngLats.map(c => c[1]);
+
+  const lons = lngLats.map((c) => c[0]);
+  const lats = lngLats.map((c) => c[1]);
 
   return {
     west: Math.min(...lons),
@@ -27,7 +28,7 @@ export function getViewportBounds(viewState) {
 }
 
 export function filterGeoJSONByBounds(features: any[], bounds: any) {
-  return features.filter(f => {
+  return features.filter((f) => {
     const [lng, lat] = f.geometry.coordinates;
     return (
       lng >= bounds.west &&
@@ -45,7 +46,7 @@ export function hashToUnit(value: string | number) {
   for (let i = 0; i < str.length; i++) {
     hash = (hash * 31 + str.charCodeAt(i)) >>> 0;
   }
-  return (hash % 360) ; // degrees 0..359
+  return hash % 360; // degrees 0..359
 }
 
 export function makeArcGISViewportQuery(bounds: {
@@ -76,4 +77,29 @@ export function makeArcGISViewportQuery(bounds: {
 export function formatDate(ms?: number | null) {
   if (!ms) return "—";
   return new Date(ms).toLocaleDateString();
+}
+
+export function computeScale({
+  f,
+  scaleBySize,
+}: {
+  f: TreeFeature | null;
+  scaleBySize: boolean;
+}) {
+  if (!scaleBySize) return [1, 1, 1] as [number, number, number];
+
+  const diameter = f.properties?.DIAM;
+  if (!diameter || diameter <= 0) return [1, 1, 1] as [number, number, number];
+
+  // Normalize diameter to a reasonable scale range
+  // Trees typically range from 2-50 inches diameter
+  // Scale from 0.3 to 3.0 for good visual range
+  const normalizedScale = 0.3 + (diameter / 50) * 2.7;
+
+  // Clamp the final scale to min/max values
+  const minScale = 0.1;
+  const maxScale = 6.0;
+  const clampedScale = Math.max(minScale, Math.min(maxScale, normalizedScale));
+
+  return [clampedScale, clampedScale, clampedScale] as [number, number, number];
 }

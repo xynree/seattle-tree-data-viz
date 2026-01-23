@@ -3,7 +3,7 @@ import { BaseMapLayer } from "../layers/BaseMapLayer";
 import { TreeLayer } from "../layers/TreeLayer";
 import { useUserLocation } from "../hooks/useUserLocation";
 import { useTreesInView } from "../hooks/useTreesInView";
-import TreePopup from "./FeatureCard";
+import FeatureCard from "./FeatureCard";
 import ControlsOverlay from "./ControlsOverlay";
 import { useState } from "react";
 import WelcomeOverlay from "./WelcomeOverlay";
@@ -17,6 +17,7 @@ import AggregationOverlay from "./AggregationOverlay";
 export default function MapView() {
   const [viewState, setViewState] = useUserLocation();
   const trees = useTreesInView(viewState);
+  const [selected, setSelected] = useState<TreeFeature>(null)
   const [popup, setPopup] = useState<{
     x: number,
     y: number,
@@ -29,7 +30,8 @@ export default function MapView() {
     BaseMapLayer(),
     TreeLayer({
       trees,
-      options
+      options,
+      selectedId: selected?.id
     }),
   ]
 
@@ -38,9 +40,7 @@ export default function MapView() {
 
       {/* Left Panels */}
       <div className="absolute flex flex-col gap-4 top-4 left-4">
-        <TreePopup
-          feature={popup?.feature}
-        />
+        <FeatureCard feature={selected} />
         <AggregationOverlay features={trees} />
       </div>
 
@@ -75,6 +75,11 @@ export default function MapView() {
             });
           } else {
             setPopup(null);
+          }
+        }}
+        onClick={(info) => {
+          if (info.object) {
+            setSelected(info.object as TreeFeature)
           }
         }}
         style={{
