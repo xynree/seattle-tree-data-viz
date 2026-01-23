@@ -1,9 +1,83 @@
+import { useEffect, useRef } from "react";
+import type { TreeFeature } from "../types/types";
+import Chart from 'chart.js/auto'
 
-export default function AggregationOverlay() {
+export default function AggregationOverlay({ features }: { features: TreeFeature[] | null }) {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const chartRef = useRef<Chart | null>(null);
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
+
+  const DEBOUNCE_DELAY = 1000; // 1s debounce
+
+
+  useEffect(() => {
+    if (!canvasRef.current || !features.length) return;
+
+    // Clear existing timer
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    // const treeCounts = features.reduce((acc, curr) => {
+    //   if (curr.properties.TOTAL_RANK) {
+    //     acc[curr.properties.TOTAL_RANK] = curr.properties.TOTAL_COUNT
+    //   }
+
+
+    //   return acc
+    // }, {} as Record<string, number>)
+
+    // Set new debounced timer
+    debounceTimer.current = setTimeout(() => {
+
+      const genusCounts = features.reduce((acc, curr) => {
+        if (curr.properties.GENUS) {
+          acc[curr.properties.GENUS] = (acc[curr.properties.GENUS] || 0) + 1
+
+        }
+
+        return acc
+      }, {} as Record<string, number>)
+
+      // const total = Object.values(genusCounts).reduce((acc, curr) => acc + curr, 0)
+
+      chartRef.current = new Chart(canvasRef.current, {
+        type: "doughnut",
+        options: {
+          plugins: {
+            legend: {
+              display: false,
+            },
+            title: {
+              display: true,
+              text: 'Distribution of Genuses in View'
+            }
+          }
+        },
+        data: {
+          labels: Object.keys(genusCounts),
+          datasets: [
+            {
+              label: "Trees in Genus: ",
+              data: Object.values(genusCounts).sort((a, b) => b - a),
+            },
+          ],
+        },
+      })
+    }, DEBOUNCE_DELAY)
+
+    return () => {
+      if (chartRef.current) {
+        chartRef.current.destroy();
+        chartRef.current = null;
+      }
+    };
+  }, [features]);
 
   return (
-    <div className="text-sm flex items-center gap-2 bg-white shadow-sm relative p-2 px-3 rounded-xl z-10 min-h-12">
-      Aggregation
+    <div className="text-sm flex flex-col items-center gap-2 bg-white shadow-sm relative p-3 rounded-xl z-10 min-h-12">
+
+      <canvas ref={canvasRef} />
     </div>
   )
 }

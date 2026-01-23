@@ -14,15 +14,15 @@ export function useUserLocation() {
     if (!navigator.geolocation) return;
 
     navigator.geolocation.getCurrentPosition(
-      pos => {
-        setViewState((vs:any) => ({
+      (pos) => {
+        setViewState((vs: any) => ({
           ...vs,
           longitude: pos.coords.longitude,
           latitude: pos.coords.latitude,
         }));
       },
       () => {},
-      { enableHighAccuracy: true }
+      { enableHighAccuracy: true },
     );
   }, []);
 

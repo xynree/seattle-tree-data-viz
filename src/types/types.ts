@@ -1,18 +1,16 @@
 export type ControlOptions = {
-  showRemoved: boolean,
-  showPrivate: boolean,
-  showPlanned: boolean,
-  scaleBySize: boolean
-}
+  showRemoved: boolean;
+  showPrivate: boolean;
+  showPlanned: boolean;
+  scaleBySize: boolean;
+};
 
-export interface TreeFeature {
-  type: "Feature";
-  geometry: {
-    type: "Point";
-    coordinates: [number, number]; // [longitude, latitude]
-  };
-  properties: TreeProperties;
-}
+export type TreeFeatureCollection = GeoJSON.FeatureCollection<
+  GeoJSON.Point,
+  TreeProperties
+>;
+
+export type TreeFeature = GeoJSON.Feature<GeoJSON.Point, TreeProperties>;
 
 export interface TreeProperties {
   OBJECTID: number;

@@ -41,7 +41,7 @@ export default function MapView() {
         <TreePopup
           feature={popup?.feature}
         />
-        <AggregationOverlay />
+        <AggregationOverlay features={trees} />
       </div>
 
       <WelcomeOverlay />

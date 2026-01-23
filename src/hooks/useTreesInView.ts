@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { getViewportBounds, makeArcGISViewportQuery } from "../helpers";
+import type { TreeFeature, TreeFeatureCollection } from "../types/types";
 
 const TREE_ZOOM_THRESHOLD = 12;
 const DEBOUNCE_MS = 300;
 
 export function useTreesInView(viewState: any) {
-  const [trees, setTrees] = useState<any[]>([]);
+  const [trees, setTrees] = useState<TreeFeature[]>([]);
   const timer = useRef<number | null>(null);
 
   useEffect(() => {
@@ -21,8 +22,8 @@ export function useTreesInView(viewState: any) {
       const url = makeArcGISViewportQuery(bounds);
 
       fetch(url)
-        .then(r => r.json())
-        .then(d => setTrees(d.features ?? []))
+        .then((r) => r.json())
+        .then((d: TreeFeatureCollection) => setTrees(d.features ?? []))
         .catch(console.error);
     }, DEBOUNCE_MS);
 
