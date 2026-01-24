@@ -18,15 +18,6 @@ export default function AggregationOverlay({ features }: { features: TreeFeature
       clearTimeout(debounceTimer.current);
     }
 
-    // const treeCounts = features.reduce((acc, curr) => {
-    //   if (curr.properties.TOTAL_RANK) {
-    //     acc[curr.properties.TOTAL_RANK] = curr.properties.TOTAL_COUNT
-    //   }
-
-
-    //   return acc
-    // }, {} as Record<string, number>)
-
     // Set new debounced timer
     debounceTimer.current = setTimeout(() => {
 
@@ -38,8 +29,6 @@ export default function AggregationOverlay({ features }: { features: TreeFeature
 
         return acc
       }, {} as Record<string, number>)
-
-      // const total = Object.values(genusCounts).reduce((acc, curr) => acc + curr, 0)
 
       chartRef.current = new Chart(canvasRef.current, {
         type: "doughnut",
@@ -76,7 +65,6 @@ export default function AggregationOverlay({ features }: { features: TreeFeature
 
   return (
     <div className="text-sm flex flex-col items-center gap-2 bg-white shadow-sm relative p-3 rounded-xl z-10 min-h-12">
-
       <canvas ref={canvasRef} />
     </div>
   )
