@@ -1,18 +1,18 @@
-import DeckGL from "@deck.gl/react";
-import { BaseMapLayer } from "../layers/BaseMapLayer";
-import { TreeLayer } from "../layers/TreeLayer";
-import { useUserLocation } from "../hooks/useUserLocation";
-import { useTreesInView } from "../hooks/useTreesInView";
-import FeatureCard from "./FeatureCard";
-import ControlsOverlay from "./ControlsOverlay";
 import { useState } from "react";
-import WelcomeOverlay from "./WelcomeOverlay";
-import { DEFAULT_CONTROLS } from "../config";
-import AttributionOverlay from "./AttributionOverlay";
-import type { TreeFeature } from "../types";
-import MousePopup from "./MousePopup";
-import AggregationOverlay from "./AggregationOverlay";
+import DeckGL from "@deck.gl/react";
 import type { MapViewState, PickingInfo } from "deck.gl";
+import { DEFAULT_CONTROLS } from "../config";
+import type { TreeFeature } from "../types";
+
+import { useUserLocation, useTreesInView } from "../hooks";
+import { BaseMapLayer, TreeLayer } from "../layers";
+
+import FeatureCard from "./FeatureCard";
+import ControlsCard from "./ControlsCard";
+import WelcomeOverlay from "./WelcomeOverlay";
+import AttributionChip from "./AttributionChip";
+import MousePopup from "./MousePopup";
+import AggregationCard from "./AggregationCard";
 
 export default function MapView() {
   const [viewState, setViewState] = useUserLocation();
@@ -40,16 +40,16 @@ export default function MapView() {
       {/* Left Panels */}
       <div className="absolute flex flex-col gap-4 top-4 left-4 max-h-[90vh] overflow-hidden">
         <FeatureCard feature={selected} />
-        <AggregationOverlay features={trees} />
+        <AggregationCard features={trees} />
       </div>
 
       <WelcomeOverlay />
-      <AttributionOverlay />
+      <AttributionChip />
       {popup ? <MousePopup popup={popup} /> : ""}
 
       {/* Right Panels */}
       <div className="absolute top-4 right-4">
-        <ControlsOverlay options={options} setOptions={setOptions} />
+        <ControlsCard options={options} setOptions={setOptions} />
       </div>
 
       {/* Map */}

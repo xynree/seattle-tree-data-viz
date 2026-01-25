@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import type { TreeFeature } from "../types";
 import Chart from "chart.js/auto";
 
-export default function AggregationOverlay({
+export default function AggregationCard({
   features,
 }: {
   features: TreeFeature[] | null;

@@ -1,14 +1,14 @@
 import type { ControlOptions } from "../types";
 
-type ControlsOverlayProps = {
+type ControlsCardProps = {
   options: ControlOptions;
   setOptions: React.Dispatch<React.SetStateAction<ControlOptions>>;
 };
 
-export default function ControlsOverlay({
+export default function ControlsCard({
   options,
   setOptions,
-}: ControlsOverlayProps) {
+}: ControlsCardProps) {
   function handleChange(checked: boolean, id: string) {
     setOptions({
       showRemoved: id === "show-removed" ? checked : options.showRemoved,

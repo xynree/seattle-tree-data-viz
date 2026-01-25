@@ -118,6 +118,7 @@ export function cleanupScientificName(string: string) {
   // or sp. indicating specialty
   return string
     .replace(/\s`.*$/, "")
+    .replace(/\s'.*$/, "")
     .replace(/\svar\..*$/, "")
     .replace(/\ssp\..*$/, "");
 }
