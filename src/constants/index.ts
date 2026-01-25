@@ -10,4 +10,5 @@ export const GENUS_LOOKUP = {
   "Acer x Freemanii Autumn Blaze": "Acer_×_freemanii",
   "Acer x Freemanii `Armstrong`": "Acer_×_freemanii",
   "Prunus cerasifera cv/hyb": "Prunus_cerasifera",
+  "Acer platanoides f Schwedler": "Acer_platanoides",
 };
