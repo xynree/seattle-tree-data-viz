@@ -1,4 +1,4 @@
-# Seattle Tree Data Visualization
+# Seattle Tree Spy 🔎🌲
 
 ![Screenshot](./public/screenshot.jpeg)
 
