@@ -1,4 +1,4 @@
-import type { ControlOptions } from "../types/types";
+import type { ControlOptions } from "../types";
 
 export const DEFAULT_CONTROLS: ControlOptions = {
   showRemoved: false,

@@ -1,7 +1,7 @@
 import { ScenegraphLayer } from "@deck.gl/mesh-layers";
 import { COORDINATE_SYSTEM } from "deck.gl";
 import { computeScale, hashToUnit } from "../helpers";
-import type { ControlOptions, TreeFeature } from "../types/types";
+import type { ControlOptions, TreeFeature } from "../types";
 
 const treeModel = "/seattle-tree-data-viz/models/tree2.glb";
 

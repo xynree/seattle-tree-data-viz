@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { getViewportBounds, makeArcGISViewportQuery } from "../helpers";
-import type { TreeFeature, TreeFeatureCollection } from "../types/types";
+import type { TreeFeature, TreeFeatureCollection } from "../types";
 import type { MapViewState } from "deck.gl";
 
 const TREE_ZOOM_THRESHOLD = 12;

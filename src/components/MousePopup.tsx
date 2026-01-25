@@ -1,4 +1,4 @@
-import type { TreeFeature } from "../types/types";
+import type { TreeFeature } from "../types";
 
 export default function MousePopup({
   popup,

@@ -1,5 +1,5 @@
 import { WebMercatorViewport, type MapViewState } from "deck.gl";
-import type { TreeFeature } from "./types/types";
+import type { TreeFeature } from "../types";
 
 // Returns bounds in degrees
 export function getViewportBounds(viewState: MapViewState) {
@@ -47,7 +47,7 @@ export function filterGeoJSONByBounds(
   });
 }
 
-// Simple deterministic hash from a string/number to 0..1
+// Deterministic hash from a string/number to 0..1
 export function hashToUnit(value: string | number) {
   const str = String(value);
   let hash = 0;
@@ -110,4 +110,14 @@ export function computeScale({
   const clampedScale = Math.max(minScale, Math.min(maxScale, normalizedScale));
 
   return [clampedScale, clampedScale, clampedScale] as [number, number, number];
+}
+
+export function cleanupScientificName(string: string) {
+  // Strip anything that has a `[name] indicating type
+  // or var. indicating variant
+  // or sp. indicating specialty
+  return string
+    .replace(/\s`.*$/, "")
+    .replace(/\svar\..*$/, "")
+    .replace(/\ssp\..*$/, "");
 }

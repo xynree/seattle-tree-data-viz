@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { TreeFeature } from "../types/types";
+import type { TreeFeature } from "../types";
 import WikipediaImage from "./WikipediaImage";
 import { formatDate } from "../helpers";
 

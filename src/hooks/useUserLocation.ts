@@ -1,12 +1,6 @@
 import type { MapViewState } from "deck.gl";
 import { useEffect, useState } from "react";
-
-const SEATTLE_FALLBACK_VIEW = {
-  longitude: -122.335167,
-  latitude: 47.608013,
-  zoom: 18,
-  pitch: 50,
-};
+import { SEATTLE_FALLBACK_VIEW } from "../constants";
 
 export function useUserLocation() {
   const [viewState, setViewState] = useState<MapViewState>(

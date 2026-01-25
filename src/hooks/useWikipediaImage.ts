@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { GENUS_LOOKUP } from "../constants";
+import { cleanupScientificName } from "../helpers";
 
 const imageCache: Record<string, string | null> = {};
 
@@ -30,7 +32,13 @@ export function useWikipediaImage(scientificName: string | null) {
       const controller = new AbortController();
       abortRef.current = controller;
 
-      const title = encodeURIComponent(scientificName);
+      let title = scientificName;
+
+      if (scientificName in GENUS_LOOKUP) {
+        title = GENUS_LOOKUP[title as keyof typeof GENUS_LOOKUP];
+      } else {
+        title = encodeURIComponent(cleanupScientificName(scientificName));
+      }
 
       fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${title}`, {
         signal: controller.signal,
