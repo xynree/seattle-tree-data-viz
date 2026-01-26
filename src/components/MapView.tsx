@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import DeckGL from "@deck.gl/react";
 import type { MapViewState, PickingInfo } from "deck.gl";
-import { DEFAULT_CONTROLS } from "../config";
+import { defaultControls } from "../config";
 import type { TreeFeature } from "../types";
 
 import { useUserLocation, useTreesInView } from "../hooks";
@@ -25,7 +25,7 @@ export default function MapView() {
     feature: TreeFeature;
   }>(null);
 
-  const [options, setOptions] = useState(DEFAULT_CONTROLS);
+  const [options, setOptions] = useState(defaultControls);
 
   const layers = useMemo(() => {
     const base = [

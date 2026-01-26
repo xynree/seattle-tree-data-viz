@@ -2,6 +2,8 @@ import { useMemo } from "react";
 import type { TreeFeature } from "../types";
 import WikipediaImage from "./WikipediaImage";
 import useStreetViewLink from "../hooks/useStreetViewLink";
+import { featureTextFormatters } from "../config";
+import { snakeToTitleCase } from "../helpers";
 
 export default function FeatureCard({
   feature,
@@ -48,9 +50,11 @@ export default function FeatureCard({
 
       <div className="flex flex-col overflow-auto gap-1">
         {properties.map(([title, value]) => (
-          <div className="text-sm" key={title}>
-            <span className="font-medium">{title}</span>:{" "}
-            <span className="whitespace-break-spaces">{value}</span>
+          <div className="text-sm title-case" key={title}>
+            <span className="font-medium">{snakeToTitleCase(title)}</span>:{" "}
+            <span className="whitespace-break-spaces">
+              {featureTextFormatters[title]?.(value) ?? value}
+            </span>
           </div>
         ))}
       </div>
