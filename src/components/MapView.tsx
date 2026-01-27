@@ -12,7 +12,6 @@ import ControlsCard from "./ControlsCard";
 import WelcomeOverlay from "./WelcomeOverlay";
 import AttributionChip from "./AttributionChip";
 import MousePopup from "./MousePopup";
-import AggregationCard from "./AggregationCard";
 import { TreeLabelLayer } from "../layers/TreeLabelLayer";
 
 export default function MapView() {
