@@ -9,6 +9,7 @@ import { BaseMapLayer, TreeLayer } from "../layers";
 
 import FeatureCard from "./FeatureCard";
 import ControlsCard from "./ControlsCard";
+import FilterPanel from "./FilterPanel";
 import WelcomeOverlay from "./WelcomeOverlay";
 import AttributionChip from "./AttributionChip";
 import MousePopup from "./MousePopup";
@@ -16,7 +17,7 @@ import { TreeLabelLayer } from "../layers/TreeLabelLayer";
 
 export default function MapView() {
   const [viewState, setViewState] = useUserLocation();
-  const trees = useTreesInView(viewState);
+  const allTrees = useTreesInView(viewState);
   const [selected, setSelected] = useState<TreeFeature>(null);
   const [popup, setPopup] = useState<{
     x: number;
@@ -25,6 +26,12 @@ export default function MapView() {
   }>(null);
 
   const [options, setOptions] = useState(defaultControls);
+  const [selectedGenuses, setSelectedGenuses] = useState<string[]>([]);
+
+  // Filter trees based on selected genuses
+  const trees = useMemo(() => selectedGenuses.length ? allTrees.filter((tree) =>
+      selectedGenuses.includes(tree.properties.GENUS)) : allTrees, [allTrees, selectedGenuses]);
+
 
   const layers = useMemo(() => {
     const base = [
@@ -61,7 +68,12 @@ export default function MapView() {
       {popup ? <MousePopup popup={popup} /> : ""}
 
       {/* Right Panels */}
-      <div className="absolute top-4 right-4">
+      <div className="absolute top-4 right-4 flex flex-col gap-4">
+        <FilterPanel
+          trees={allTrees}
+          selectedGenuses={selectedGenuses}
+          setSelectedGenuses={setSelectedGenuses}
+        />
         <ControlsCard options={options} setOptions={setOptions} />
       </div>
 
