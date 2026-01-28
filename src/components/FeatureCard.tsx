@@ -7,8 +7,10 @@ import WikipediaSummary from "./WikipediaSummary";
 
 export default function FeatureCard({
   feature,
+  setFeature, 
 }: {
   feature: TreeFeature | null;
+  setFeature: (feature: TreeFeature | null) => void;
 }) {
   const streetViewLink = useStreetViewLink(feature?.geometry.coordinates);
 
@@ -34,6 +36,8 @@ export default function FeatureCard({
         </div>
 
         {/* Header Right */}
+        <div className="flex gap-1">
+
         <div className="bg-gray-100 hover:bg-gray-200 transition px-4 py-2 text-sm rounded-full">
           <a
             href={streetViewLink}
@@ -44,6 +48,11 @@ export default function FeatureCard({
             <span className="material-symbols-outlined">image_search</span>
           </a>
         </div>
+
+      <span className="hover:bg-gray-100 transition px-3 py-2 rounded-full material-symbols-outlined cursor-pointer " onClick={() =>setFeature(null)}>close</span>
+      
+      </div>
+
       </div>
 
       <WikipediaSummary scientificName={feature.properties.SCIENTIFIC_NAME} />

@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import type { TreeFeature } from "../types";
+import { COMMON_GENUS_NAME_LOOKUP } from "../constants";
 
 type FilterPanelProps = {
   trees: TreeFeature[];
@@ -47,7 +48,7 @@ export default function FilterPanel({
     setSelectedGenuses([]);
   };
 
-  return (
+  return  topGenuses.length > 0 && (
     <div className="flex flex-col gap-2 bg-white rounded-xl z-10 relative p-4 shadow-md">
       <div className="flex items-center justify-between mb-1">
         <h3 className="text-sm font-semibold text-gray-700">Filter by Genus</h3>
@@ -75,7 +76,7 @@ export default function FilterPanel({
               htmlFor={`genus-${genus}`}
               className="text-sm cursor-pointer flex-1"
             >
-              <span className="font-medium">{genus}</span>
+              <span className="font-medium">{COMMON_GENUS_NAME_LOOKUP[genus]?  COMMON_GENUS_NAME_LOOKUP[genus]: genus}</span>
               <span className="text-gray-500 ml-1">({count.toLocaleString()})</span>
             </label>
           </div>

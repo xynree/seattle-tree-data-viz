@@ -17,6 +17,41 @@ export const GENUS_LOOKUP = {
   "Acer saccharum ssp. Nigrum `Gr": "Acer_saccharum",
 };
 
+export const COMMON_GENUS_NAME_LOOKUP = {
+  "Acer": "Maple",
+  "Quercus": "Oak",
+  "Fraxinus": "Ash",
+  "Malus": "Apple",
+  "Prunus": "Cherry, Plum, Peach, etc.",
+  "Populus": "Poplar, Aspen",
+  "Salix": "Willow",
+  "Tilia": "Linden",
+  "Styrax": "Syracuse",
+  "Betula": "Birch",
+  "Carpinus": "Hornbeam",
+  "Liriodendron": "Tulip",
+  "Crataegus": "Hawthorn",
+  "Nyssa": "Tupelo",
+  "Sorbus": "Rowan, Mountain Ash", 
+  "Pyrus": "Pear", 
+  "Chamaecyparis": "False Cypress", 
+  "Cornus": "Dogwood",
+ "Gleditsia": "Honey Locust",
+ "Liquidambar": "Sweetgum",
+ "Robinia": "Black Locust",
+ "Aesculus": "Horse Chestnut",
+ "Ulmus": "Elm",
+ "Cercidiphyllum": "Katsura",
+ "Platanus": "Plane",
+ "Pinus": "Pine",
+ "Parrotia": "Persian Ironwood",
+ "Fagus": "Beech",
+ "Amelanchier": "Serviceberry",
+ "Alnus": " Alder",
+ "Cercis": "Redbud",
+ "Trachycarpus": "Palm"
+}
+
 export const TREE_MODEL_PATH = "/seattle-tree-spy/models/tree2.glb";
 
-export const TREE_ZOOM_THRESHOLD = 14;
+export const TREE_ZOOM_THRESHOLD = 13;
