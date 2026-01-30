@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { useWikipediaSummary } from "../hooks";
-import { getWikiImageSource } from "../helpers";
 
 export default function WikipediaSummary({
   scientificName,
@@ -11,7 +10,14 @@ export default function WikipediaSummary({
   const [index, setIndex] = useState(0);
 
   const galleryImages = useMemo(() => {
-    return mediaList?.filter((media) => media.showInGallery) ?? [];
+    return (
+      mediaList?.filter(
+        (media) =>
+          media.showInGallery &&
+          !media.title.includes("Status") &&
+          !media.title.includes("range"),
+      ) ?? []
+    );
   }, [mediaList]);
 
   useEffect(() => {
@@ -21,16 +27,16 @@ export default function WikipediaSummary({
 
   return (
     <>
-      <div className="relative bg-gray-200 rounded-lg my-2 h-48 min-48">
+      <div className="relative bg-gray-200 rounded-lg my-2 h-72 min-48">
         {galleryImages.length ? (
           <div className="w-full h-full">
             <img
-              src={getWikiImageSource(galleryImages[index])}
+              src={galleryImages[index]?.srcset[0].src ?? ""}
               alt={
                 galleryImages[index]?.caption?.text ??
                 galleryImages[index]?.title
               }
-              className="w-full object-contain h-48"
+              className="w-full object-contain h-72"
             />
 
             {/* Caption */}
@@ -41,9 +47,9 @@ export default function WikipediaSummary({
             )}
 
             {/* Controls */}
-            <div className="absolute top-1/3 p-2 flex w-full justify-between">
+            <div className="absolute top-2/5 p-2 flex w-full justify-between">
               <span
-                className="cursor-pointer p-2 rounded-full hover:bg-gray-300 material-symbols-outlined"
+                className="cursor-pointer p-2 rounded-full bg-white/60 hover:white/80 material-symbols-outlined"
                 onClick={() =>
                   setIndex((prev) =>
                     prev === 0 ? galleryImages.length - 1 : prev - 1,
@@ -53,7 +59,7 @@ export default function WikipediaSummary({
                 arrow_left
               </span>
               <span
-                className="cursor-pointer p-2 rounded-full hover:bg-gray-300 material-symbols-outlined"
+                className="cursor-pointer p-2 rounded-full bg-white/60  hover:bg-white/80 material-symbols-outlined"
                 onClick={() =>
                   setIndex((prev) =>
                     prev === galleryImages.length - 1 ? 0 : prev + 1,
