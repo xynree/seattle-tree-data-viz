@@ -34,35 +34,38 @@ export default function WikipediaSummary({
               className="m-auto object-scale-down h-72"
             />
 
-            {/* Caption */}
-            {galleryImages[index]?.caption?.text && (
-              <div className="absolute bottom-0 left-0 right-0 bg-white/80 bg-opacity-50 text-black text-xs px-3 py-1">
-                {galleryImages[index]?.caption?.text}
-              </div>
-            )}
-
             {/* Controls */}
-            <div className="absolute top-2/5 p-2 flex w-full justify-between ">
-              <span
-                className="cursor-pointer p-2 text-green-800 rounded-full bg-white/60 hover:white/80 material-symbols-outlined"
+            <div className="absolute flex items-center bottom-0 bg-white/60 w-full justify-between ">
+              <button
+                className="disabled:text-gray-400 cursor-pointer p-2 text-green-800 material-symbols-outlined"
                 onClick={() =>
                   setIndex((prev) =>
                     prev === 0 ? galleryImages.length - 1 : prev - 1,
                   )
                 }
+                disabled={index === 0}
               >
                 arrow_left
-              </span>
-              <span
-                className="cursor-pointer p-2 rounded-full bg-white/60 text-green-800 hover:bg-white/80 material-symbols-outlined"
+              </button>
+
+              {/* Caption */}
+              {galleryImages[index]?.caption?.text && (
+                <div className="text-xs px-2 py-1">
+                  {galleryImages[index]?.caption?.text}
+                </div>
+              )}
+
+              <button
+                className="cursor-pointer disabled:text-gray-400 p-2 text-green-800 hover:text-green-900 transition material-symbols-outlined"
                 onClick={() =>
                   setIndex((prev) =>
                     prev === galleryImages.length - 1 ? 0 : prev + 1,
                   )
                 }
+                disabled={index === galleryImages.length - 1}
               >
                 arrow_right
-              </span>
+              </button>
             </div>
           </div>
         ) : !isLoading ? (
