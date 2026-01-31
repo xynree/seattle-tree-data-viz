@@ -55,3 +55,10 @@ export const COMMON_GENUS_NAME_LOOKUP = {
 export const TREE_MODEL_PATH = "/seattle-tree-spy/models/tree2.glb";
 
 export const TREE_ZOOM_THRESHOLD = 13;
+
+export const SEATTLE_BOUNDS = {
+  west: -122.4597,
+  south: 47.4817,
+  east: -122.2244,
+  north: 47.7341,
+};

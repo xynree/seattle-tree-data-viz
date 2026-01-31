@@ -1,4 +1,5 @@
 import { WebMercatorViewport, type MapViewState } from "deck.gl";
+import { SEATTLE_BOUNDS } from "../constants";
 import type { ControlOptions, TreeFeature } from "../types";
 
 // Returns bounds in degrees
@@ -148,4 +149,13 @@ export function snakeToTitleCase(input: string): string {
     .split("_")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+}
+
+export function isWithinSeattle(lng: number, lat: number) {
+  return (
+    lng >= SEATTLE_BOUNDS.west &&
+    lng <= SEATTLE_BOUNDS.east &&
+    lat >= SEATTLE_BOUNDS.south &&
+    lat <= SEATTLE_BOUNDS.north
+  );
 }

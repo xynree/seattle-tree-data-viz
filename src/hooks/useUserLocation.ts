@@ -1,6 +1,7 @@
 import type { MapViewState } from "deck.gl";
 import { useEffect, useState } from "react";
 import { SEATTLE_FALLBACK_VIEW } from "../constants";
+import { isWithinSeattle } from "../helpers";
 
 export function useUserLocation() {
   const [viewState, setViewState] = useState<MapViewState>(
@@ -12,11 +13,14 @@ export function useUserLocation() {
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        setViewState((vs: MapViewState) => ({
-          ...vs,
-          longitude: pos.coords.longitude,
-          latitude: pos.coords.latitude,
-        }));
+        const { longitude, latitude } = pos.coords;
+        if (isWithinSeattle(longitude, latitude)) {
+          setViewState((vs: MapViewState) => ({
+            ...vs,
+            longitude,
+            latitude,
+          }));
+        }
       },
       () => {},
       { enableHighAccuracy: true },
