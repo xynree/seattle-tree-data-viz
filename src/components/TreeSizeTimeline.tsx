@@ -19,7 +19,7 @@ export default function TreeSizeTimeline({ diameter }: { diameter: number }) {
       return { category: "Large", progress: 60 + ((diameter - 24) / 6) * 20 };
     return {
       category: "Extra Large",
-      progress: Math.min(100, 80 + ((diameter - 24) / 24) * 20),
+      progress: Math.min(100, 80 + ((diameter - 24) / 6) * 20),
     };
   }, [diameter]);
 
