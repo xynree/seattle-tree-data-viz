@@ -38,14 +38,16 @@ export default function FeatureCard({
 
         {/* Header Right */}
         <div className="flex gap-1">
-          <div className="bg-gray-100 hover:bg-gray-200 transition px-4 py-2 text-sm rounded-full">
+          <div className="button">
             <a
               href={streetViewLink}
               target="_blank"
-              className="flex items-center gap-2"
+              className="flex whitespace-nowrap items-center gap-1"
             >
-              <span>View in Maps</span>
-              <span className="material-symbols-outlined">image_search</span>
+              <span>Map View</span>
+              <span className="material-symbols-outlined mt-[0.5] !text-[18px]">
+                image_search
+              </span>
             </a>
           </div>
 
@@ -65,13 +67,13 @@ export default function FeatureCard({
 
       {/* Dates */}
       <div className="flex gap-2 w-full">
-        <div className="flex flex-col gap-1 w-full rounded-2xl bg-gray-50 border border-gray-100 p-2 px-4">
+        <div className="property-feature py-3!">
           <span className="text-xs font-medium text-gray-500">Planted</span>
           <span className="text-xl font-semibold">
             {formatDate(feature.properties.PLANTED_DATE)}
           </span>
         </div>
-        <div className="flex flex-col gap-1 w-full rounded-2xl bg-gray-50 border-gray-100 border p-2 px-4">
+        <div className="property-feature py-3!">
           <span className="text-xs font-medium text-gray-500">
             Last Verified
           </span>

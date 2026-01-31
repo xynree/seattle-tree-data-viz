@@ -24,7 +24,7 @@ export default function TreeSizeTimeline({ diameter }: { diameter: number }) {
   }, [diameter]);
 
   return (
-    <div className="flex flex-col gap-2 w-full p-4 bg-gray-50 rounded-2xl border border-gray-100">
+    <div className="property-feature">
       <div className="flex justify-between items-center">
         <span className="text-xs font-medium text-gray-500">Diameter</span>
         <span className="text-sm font-semibold text-gray-800">

@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.button {
+  @apply border border-green-700/50 bg-green-50 hover:bg-green-100 text-green-800 transition-colors px-4 py-2 text-sm rounded-full cursor-pointer;
+}
+
+.property-feature {
+  @apply flex flex-col gap-2 w-full rounded-2xl bg-gray-50 border border-gray-100 p-4;
+}

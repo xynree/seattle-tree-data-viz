@@ -42,9 +42,9 @@ export default function WikipediaSummary({
             )}
 
             {/* Controls */}
-            <div className="absolute top-2/5 p-2 flex w-full justify-between">
+            <div className="absolute top-2/5 p-2 flex w-full justify-between ">
               <span
-                className="cursor-pointer p-2 rounded-full bg-white/60 hover:white/80 material-symbols-outlined"
+                className="cursor-pointer p-2 text-green-800 rounded-full bg-white/60 hover:white/80 material-symbols-outlined"
                 onClick={() =>
                   setIndex((prev) =>
                     prev === 0 ? galleryImages.length - 1 : prev - 1,
@@ -54,7 +54,7 @@ export default function WikipediaSummary({
                 arrow_left
               </span>
               <span
-                className="cursor-pointer p-2 rounded-full bg-white/60  hover:bg-white/80 material-symbols-outlined"
+                className="cursor-pointer p-2 rounded-full bg-white/60 text-green-800 hover:bg-white/80 material-symbols-outlined"
                 onClick={() =>
                   setIndex((prev) =>
                     prev === galleryImages.length - 1 ? 0 : prev + 1,
