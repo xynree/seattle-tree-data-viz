@@ -31,7 +31,7 @@ export default function WikipediaSummary({
                 galleryImages[index]?.caption?.text ??
                 galleryImages[index]?.title
               }
-              className="m-auto object-scale-down h-72"
+              className="m-auto object-cover h-72"
             />
 
             {/* Controls */}
@@ -50,7 +50,7 @@ export default function WikipediaSummary({
 
               {/* Caption */}
               {galleryImages[index]?.caption?.text && (
-                <div className="text-xs px-2 py-1">
+                <div className="text-xs px-2 py-1 max-h-12 text-ellipsis overflow-hidden">
                   {galleryImages[index]?.caption?.text}
                 </div>
               )}
@@ -78,22 +78,25 @@ export default function WikipediaSummary({
       </div>
 
       {summary?.extract_html ? (
-        <span
-          className="text-sm h-max"
-          dangerouslySetInnerHTML={{ __html: summary.extract_html }}
-        />
+        <div className="flex flex-col gap-1">
+          <span
+            className="text-sm h-max"
+            dangerouslySetInnerHTML={{ __html: summary.extract_html }}
+          />
+          <span>
+            <a
+              className="text-blue-500 font-light w-min text-nowrap text-xs rounded-full"
+              href={summary?.content_urls?.desktop.page ?? ""}
+              target="_blank"
+            >
+              Wikipedia
+            </a>
+          </span>
+        </div>
       ) : (
         ""
       )}
-      <span>
-        <a
-          className="text-blue-500 pl-2 my-1 w-min text-nowrap text-sm rounded-full"
-          href={summary?.content_urls?.desktop.page ?? ""}
-          target="_blank"
-        >
-          View more
-        </a>
-      </span>
+      <span></span>
     </>
   );
 }
