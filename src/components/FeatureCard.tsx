@@ -22,7 +22,7 @@ export default function FeatureCard({
   }, [feature]);
 
   return properties ? (
-    <div className="flex flex-col gap-2 overflow-auto relative w-110 h-full bg-white p-4 rounded-2xl z-10 mr-auto">
+    <div className="flex flex-col gap-2 overflow-auto relative w-full md:w-110 h-full bg-white p-4 rounded-2xl z-10 mr-auto">
       <div className="flex justify-between items-center">
         {/* Header Left */}
         <div className="flex flex-col">
@@ -88,7 +88,7 @@ export default function FeatureCard({
 
       {/* Properties */}
 
-      <div className="flex flex-col overflow-auto gap-1 p-3 py-2 outline outline-gray-300 rounded-lg">
+      <div className="flex flex-col md:overflow-auto gap-1 p-3 py-2 outline outline-gray-300 rounded-lg">
         {properties.map(([title, value]) => (
           <div className="text-sm title-case" key={title}>
             <span className="font-medium">{snakeToTitleCase(title)}</span>:{" "}

@@ -67,22 +67,23 @@ export default function MapView() {
     <div className="w-screen h-screen">
       {/* Overlays */}
       <div className="absolute flex flex-col gap-2 h-full w-full overflow-hidden">
-        <div className="flex flex-col gap-2 p-2">
+        <div className="flex flex-col gap-2 p-2 sm:mt-auto md:mt-0">
           {/* Top Panel */}
           <FilterPanel
             trees={allTrees}
             selectedGenuses={selectedGenuses}
             setSelectedGenuses={setSelectedGenuses}
           />
-          <div className="flex h-[calc(100vh-64px)] justify-between">
+
+          <div className="flex gap-2 flex-col md:flex-row w-full md:w-auto md:mt-0 h-[calc(100vh-64px)] justify-end md:justify-between md:items-start pb-6 md:pb-0">
             {/* Left Panels */}
-            <div className="flex flex-col justify-between gap-2">
+            <div className="flex flex-col justify-between gap-2 h-1/3 md:h-full">
               <FeatureCard feature={selected} setFeature={setSelected} />
               <AttributionChip />
             </div>
 
             {/* Right Panels */}
-            <div className="flex flex-col gap-2 ml-auto">
+            <div className="flex flex-col gap-2 md:ml-auto absolute md:static top-14">
               <ResetViewControl
                 viewState={viewState}
                 setViewState={setViewState}
