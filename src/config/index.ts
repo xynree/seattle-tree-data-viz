@@ -6,6 +6,7 @@ export const defaultControls: ControlOptions = {
   showPlanned: false,
   scaleBySize: true,
   showLabels: false,
+  showUserGPS: true,
 };
 
 export const featureTextFormatters: Partial<

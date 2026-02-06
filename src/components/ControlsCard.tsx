@@ -16,6 +16,7 @@ export default function ControlsCard({
       showPlanned: id === "show-planned" ? checked : options.showPlanned,
       scaleBySize: id === "scale-by-size" ? checked : options.scaleBySize,
       showLabels: id === "show-labels" ? checked : options.showLabels,
+      showUserGPS: id === "show-user-gps" ? checked : options.showUserGPS,
     });
   }
 
@@ -69,6 +70,18 @@ export default function ControlsCard({
         />
         <label htmlFor="scale-by-size" className="text-sm">
           Scale By Size
+        </label>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="show-user-gps"
+          checked={options.showUserGPS}
+          onChange={(e) => handleChange(e.target.checked, e.target.id)}
+        />
+        <label htmlFor="show-user-gps" className="text-sm">
+          Show User Location
         </label>
       </div>
 

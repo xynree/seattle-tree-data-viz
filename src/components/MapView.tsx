@@ -5,7 +5,7 @@ import { defaultControls } from "../config";
 import type { TreeFeature } from "../types";
 
 import { useUserLocation, useTreesInView } from "../hooks";
-import { BaseMapLayer, TreeLayer } from "../layers";
+import { BaseMapLayer, TreeLayer, UserLocationLayer } from "../layers";
 
 import FeatureCard from "./FeatureCard";
 import ControlsCard from "./ControlsCard";
@@ -13,10 +13,11 @@ import FilterPanel from "./FilterPanel";
 import WelcomeOverlay from "./WelcomeOverlay";
 import AttributionChip from "./AttributionChip";
 import MousePopup from "./MousePopup";
+import UserLocationPin from "./UserLocationPin";
 import { TreeLabelLayer } from "../layers/TreeLabelLayer";
 
 export default function MapView() {
-  const [viewState, setViewState] = useUserLocation();
+  const { viewState, setViewState, userLocation } = useUserLocation();
   const allTrees = useTreesInView(viewState);
   const [selected, setSelected] = useState<TreeFeature>(null);
   const [popup, setPopup] = useState<{
@@ -47,6 +48,7 @@ export default function MapView() {
         options,
         selectedId: selected?.id,
       }),
+      options.showUserGPS ? UserLocationLayer({ userLocation }) : [],
     ];
 
     return options.showLabels
@@ -59,7 +61,7 @@ export default function MapView() {
           }),
         ]
       : base;
-  }, [options, selected, trees, viewState]);
+  }, [options, selected, trees, viewState, userLocation]);
 
   return (
     <div className="w-screen h-screen">
@@ -80,7 +82,14 @@ export default function MapView() {
             </div>
 
             {/* Right Panels */}
-            <ControlsCard options={options} setOptions={setOptions} />
+            <div className="flex flex-col gap-2 ml-auto">
+              <UserLocationPin
+                viewState={viewState}
+                setViewState={setViewState}
+                userLocation={userLocation}
+              />
+              <ControlsCard options={options} setOptions={setOptions} />
+            </div>
           </div>
         </div>
 
