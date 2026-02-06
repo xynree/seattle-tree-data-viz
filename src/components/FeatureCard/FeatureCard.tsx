@@ -1,10 +1,11 @@
 import { useMemo } from "react";
-import type { TreeFeature } from "../types";
-import useStreetViewLink from "../hooks/useStreetViewLink";
-import { featureTextFormatters } from "../config";
-import { formatDate, snakeToTitleCase } from "../helpers";
-import WikipediaSummary from "./WikipediaSummary";
-import TreeSizeTimeline from "./TreeSizeTimeline";
+import type { TreeFeature } from "../../types";
+import useStreetViewLink from "../../hooks/useStreetViewLink";
+import { featureTextFormatters } from "../../config";
+import { formatDate, snakeToTitleCase } from "../../helpers";
+import WikipediaSummary from "./components/WikipediaSummary";
+import TreeSizeTimeline from "./components/TreeSizeTimeline";
+import FeaturePanel from "./components/FeaturePanel";
 
 export default function FeatureCard({
   feature,
@@ -70,20 +71,14 @@ export default function FeatureCard({
 
       {/* Dates */}
       <div className="flex gap-2 w-full">
-        <div className="property-feature py-3!">
-          <span className="text-xs font-medium text-gray-500">Planted</span>
-          <span className="text-xl font-semibold">
-            {formatDate(feature.properties.PLANTED_DATE)}
-          </span>
-        </div>
-        <div className="property-feature py-3!">
-          <span className="text-xs font-medium text-gray-500">
-            Last Verified
-          </span>
-          <span className="text-xl font-semibold">
-            {formatDate(feature.properties.LAST_VERIFY_DATE)}
-          </span>
-        </div>
+        <FeaturePanel
+          title="Planted"
+          content={formatDate(feature.properties.PLANTED_DATE)}
+        />
+        <FeaturePanel
+          title="Last Verified"
+          content={formatDate(feature.properties.LAST_VERIFY_DATE)}
+        />
       </div>
 
       {/* Size */}

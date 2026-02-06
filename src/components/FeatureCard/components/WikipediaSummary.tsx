@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useWikipediaSummary } from "../hooks";
+import { useWikipediaSummary } from "../../../hooks";
 
 export default function WikipediaSummary({
   scientificName,

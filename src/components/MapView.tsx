@@ -7,7 +7,7 @@ import type { TreeFeature } from "../types";
 import { useUserLocation, useTreesInView } from "../hooks";
 import { BaseMapLayer, TreeLayer, UserLocationLayer } from "../layers";
 
-import FeatureCard from "./FeatureCard";
+import FeatureCard from "./FeatureCard/FeatureCard";
 import ControlsCard from "./ControlsCard";
 import FilterPanel from "./FilterPanel";
 import WelcomeOverlay from "./WelcomeOverlay";
