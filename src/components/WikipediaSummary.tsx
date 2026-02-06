@@ -22,22 +22,22 @@ export default function WikipediaSummary({
 
   return (
     <>
-      <div className="relative bg-gray-200 rounded-lg my-2 h-72 min-48">
+      <div className="relative bg-gray-200 rounded-3xl my-2 h-72 min-h-72 min-48">
         {galleryImages.length ? (
-          <div className="h-72">
+          <div className="h-72 rounded-3xl">
             <img
               src={galleryImages[index]?.srcset[0].src ?? ""}
               alt={
                 galleryImages[index]?.caption?.text ??
                 galleryImages[index]?.title
               }
-              className="m-auto object-cover h-72"
+              className="m-auto object-cover h-full w-full rounded-3xl"
             />
 
             {/* Controls */}
             <div className="absolute flex items-center bottom-0 bg-white/60 w-full justify-between ">
               <button
-                className="disabled:text-gray-400 cursor-pointer p-2 text-green-800 material-symbols-outlined"
+                className="disabled:text-gray-400 cursor-pointer p-3 text-green-800 material-symbols-outlined"
                 onClick={() =>
                   setIndex((prev) =>
                     prev === 0 ? galleryImages.length - 1 : prev - 1,

@@ -25,34 +25,37 @@ export default function FeatureCard({
     <div className="flex flex-col gap-2 overflow-auto relative w-full md:w-110 h-full bg-white p-4 rounded-2xl z-10 mr-auto">
       <div className="flex justify-between items-center">
         {/* Header Left */}
-        <div className="flex flex-col">
-          <div className="font-bold">
-            🌳 {feature.properties.COMMON_NAME || "Unknown Tree"}
+        <div className="flex gap-2">
+          {/* Map View Button */}
+          <div className="flex items-center bg-green-50 hover:bg-green-100 text-green-800 transition-colors px-3 py-2 text-sm rounded-full cursor-pointer">
+            <a
+              href={streetViewLink}
+              target="_blank"
+              title="View on Google Maps"
+              className="flex whitespace-nowrap items-center gap-1"
+            >
+              <span className="material-symbols-outlined mt-[0.5] !text-[18px]">
+                map_search
+              </span>
+            </a>
           </div>
 
-          <div className="italic">
-            {" "}
-            {feature.properties.SCIENTIFIC_NAME || "—"}
+          {/* Title & Subtitle */}
+          <div className="flex flex-col text-md">
+            <div className="font-bold">
+              {feature.properties.COMMON_NAME || "Unknown Tree"}
+            </div>
+
+            <div className="italic text-xs">
+              {feature.properties.SCIENTIFIC_NAME || "—"}
+            </div>
           </div>
         </div>
 
         {/* Header Right */}
         <div className="flex gap-1">
-          <div className="button">
-            <a
-              href={streetViewLink}
-              target="_blank"
-              className="flex whitespace-nowrap items-center gap-1"
-            >
-              <span>Map View</span>
-              <span className="material-symbols-outlined mt-[0.5] !text-[18px]">
-                image_search
-              </span>
-            </a>
-          </div>
-
           <span
-            className="hover:bg-gray-100 transition px-3 py-2 rounded-full material-symbols-outlined cursor-pointer "
+            className="hover:bg-gray-100 hover:text-gray-800 transition-all px-3 py-2 rounded-full material-symbols-outlined cursor-pointer !text-[18px] text-gray-400"
             onClick={() => setFeature(null)}
           >
             close
