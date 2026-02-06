@@ -15,6 +15,7 @@ export const GENUS_LOOKUP = {
   "Cornus nuttallii x florida": "Cornus_nuttallii",
   "Ginkgo biloba Autumn Gold TM": "Ginkgo_biloba",
   "Acer saccharum ssp. Nigrum `Gr": "Acer_saccharum",
+  "Acer saccharum ssp. Nigrum": "Acer_saccharum",
 };
 
 export const COMMON_GENUS_NAME_LOOKUP = {

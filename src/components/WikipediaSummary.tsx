@@ -93,6 +93,8 @@ export default function WikipediaSummary({
             </a>
           </span>
         </div>
+      ) : isLoading ? (
+        <div className="h-48 w-full bg-gray-100 animate-pulse rounded-xl"></div>
       ) : (
         ""
       )}

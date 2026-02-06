@@ -28,6 +28,10 @@ export function useWikipediaSummary(scientificName: string | null) {
   }, [cachedMediaList]);
 
   useEffect(() => {
+    setWikipediaData(summaryCache[scientificName] ?? null);
+  }, [scientificName]);
+
+  useEffect(() => {
     if (!scientificName || scientificName in summaryCache) return;
 
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -57,11 +61,11 @@ export function useWikipediaSummary(scientificName: string | null) {
         .then((res) => Promise.all(res.map((r) => r.json())))
         .then((data: [WikipediaPageSummary, WikipediaMediaList]) => {
           const [summary, mediaList] = data;
-          summaryCache[scientificName] = {
-            ...summary,
-            media_list: mediaList.items,
-          };
-          setWikipediaData({ ...summary, media_list: mediaList.items });
+
+          const wikipediaData = { ...summary, media_list: mediaList.items };
+
+          summaryCache[scientificName] = wikipediaData;
+          setWikipediaData(wikipediaData);
           setMediaList(mediaList.items);
         })
         .catch((err: Error) => {
