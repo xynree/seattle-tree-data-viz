@@ -114,6 +114,9 @@ export default function MapView() {
           setViewState(e.viewState as unknown as MapViewState)
         }
         layers={layers}
+        getCursor={({ isHovering, isDragging }) =>
+          isDragging ? "grabbing" : isHovering ? "pointer" : "grab"
+        }
         onHover={(info: PickingInfo<TreeFeature>) => {
           if (info.object) {
             setPopup({

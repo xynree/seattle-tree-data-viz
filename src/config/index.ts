@@ -24,4 +24,5 @@ export const featureTextFormatters: Partial<
   PLANTED_DATE: (value: number) => new Date(value).toLocaleDateString(),
   SHAPE_LNG: (value: number) => `${value.toFixed(4)}°`,
   SHAPE_LAT: (value: number) => `${value.toFixed(4)}°`,
+  DIAM: (value: number) => `${value} in`,
 };
