@@ -13,7 +13,7 @@ import FilterPanel from "./FilterPanel";
 import WelcomeOverlay from "./WelcomeOverlay";
 import AttributionChip from "./AttributionChip";
 import MousePopup from "./MousePopup";
-import UserLocationPin from "./UserLocationPin";
+import ResetViewControl from "./ResetViewControl";
 import { TreeLabelLayer } from "../layers/TreeLabelLayer";
 
 export default function MapView() {
@@ -83,7 +83,7 @@ export default function MapView() {
 
             {/* Right Panels */}
             <div className="flex flex-col gap-2 ml-auto">
-              <UserLocationPin
+              <ResetViewControl
                 viewState={viewState}
                 setViewState={setViewState}
                 userLocation={userLocation}
