@@ -17,6 +17,7 @@ export const GENUS_LOOKUP = {
   "Acer saccharum ssp. Nigrum `Gr": "Acer_saccharum",
   "Acer saccharum ssp. Nigrum": "Acer_saccharum",
   "Ulmus japonica x wilsoniana 'M": "Ulmus_japonica",
+  "Fraxinus pennsylvanica ‘Johnso": "Fraxinus_pennsylvanica",
 };
 
 export const COMMON_GENUS_NAME_LOOKUP = {

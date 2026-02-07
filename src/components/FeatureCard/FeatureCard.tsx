@@ -72,7 +72,7 @@ export default function FeatureCard({
       />
 
       {/* Address */}
-      <div className="flex gap-2 w-full">
+      <div className="flex gap-2 flex-wrap overflow-clip">
         <FeaturePanel
           title="Address"
           content={feature.properties.UNITDESC}
@@ -85,13 +85,17 @@ export default function FeatureCard({
           )}
           style="content"
         />
-        <FeaturePanel
-          title="Ownership"
-          content={featureTextFormatters.OWNERSHIP(
-            feature.properties.OWNERSHIP,
-          )}
-          style="content"
-        />
+        {feature.properties.OWNERSHIP ? (
+          <FeaturePanel
+            title="Ownership"
+            content={featureTextFormatters.OWNERSHIP(
+              feature.properties.OWNERSHIP,
+            )}
+            style="content"
+          />
+        ) : (
+          ""
+        )}
       </div>
 
       {/* Dates */}

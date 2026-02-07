@@ -15,11 +15,11 @@ export default function FeaturePanel({
     if (style === "content") {
       return "text-lg whitespace-nowrap";
     }
-    return "text-lg font-semibold";
+    return "text-lg font-semibold whitespace-nowrap";
   }, [style]);
 
   return (
-    <div className="flex flex-col gap-1 w-full rounded-xl bg-gray-50 border border-gray-100 p-2 px-3">
+    <div className="shrink-0 flex-1 flex flex-col gap-1 rounded-xl bg-gray-50 border border-gray-100 p-2 px-3">
       <div className="flex justify-between items-center">
         <span className="text-xs text-gray-500">{title}</span>
         <span className="text-sm font-semibold text-gray-800">{subtitle}</span>
