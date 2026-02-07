@@ -16,6 +16,7 @@ export const GENUS_LOOKUP = {
   "Ginkgo biloba Autumn Gold TM": "Ginkgo_biloba",
   "Acer saccharum ssp. Nigrum `Gr": "Acer_saccharum",
   "Acer saccharum ssp. Nigrum": "Acer_saccharum",
+  "Ulmus japonica x wilsoniana 'M": "Ulmus_japonica",
 };
 
 export const COMMON_GENUS_NAME_LOOKUP = {

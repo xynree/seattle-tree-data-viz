@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import type { TreeFeature } from "../../types";
 import useStreetViewLink from "../../hooks/useStreetViewLink";
 import { featureTextFormatters } from "../../config";
@@ -16,6 +16,8 @@ export default function FeatureCard({
 }) {
   const streetViewLink = useStreetViewLink(feature?.geometry.coordinates);
 
+  const [showMoreInfo, setShowMoreInfo] = useState(false);
+
   const properties = useMemo(() => {
     if (feature) {
       return Object.entries(feature.properties).filter(([, value]) => value);
@@ -23,7 +25,7 @@ export default function FeatureCard({
   }, [feature]);
 
   return properties ? (
-    <div className="flex flex-col gap-2 overflow-auto relative w-full md:w-110 h-full bg-white p-4 rounded-2xl z-10 mr-auto">
+    <div className="flex flex-col gap-2 overflow-auto relative w-full md:w-110 h-min bg-white p-4 rounded-2xl z-10 mr-auto">
       <div className="flex justify-between items-center">
         {/* Header Left */}
         <div className="flex gap-2">
@@ -69,6 +71,29 @@ export default function FeatureCard({
         scientificName={feature.properties.SCIENTIFIC_NAME}
       />
 
+      {/* Address */}
+      <div className="flex gap-2 w-full">
+        <FeaturePanel
+          title="Address"
+          content={feature.properties.UNITDESC}
+          style="content"
+        />
+        <FeaturePanel
+          title="District"
+          content={featureTextFormatters.PRIMARYDISTRICTCD(
+            feature.properties.PRIMARYDISTRICTCD,
+          )}
+          style="content"
+        />
+        <FeaturePanel
+          title="Ownership"
+          content={featureTextFormatters.OWNERSHIP(
+            feature.properties.OWNERSHIP,
+          )}
+          style="content"
+        />
+      </div>
+
       {/* Dates */}
       <div className="flex gap-2 w-full">
         <FeaturePanel
@@ -86,7 +111,19 @@ export default function FeatureCard({
 
       {/* Properties */}
 
-      <div className="flex flex-col md:overflow-auto gap-1 p-3 py-2 outline outline-gray-300 rounded-lg">
+      <button
+        className="cursor-pointer flex items-center justify-between px-2"
+        onClick={() => setShowMoreInfo(!showMoreInfo)}
+      >
+        <span className="text-sm">More Info</span>
+        <span className="material-symbols-outlined text-gray-600">
+          {showMoreInfo ? "arrow_drop_down" : "arrow_drop_up"}
+        </span>
+      </button>
+
+      <div
+        className={`flex flex-col md:overflow-auto gap-1 p-3 py-2 outline outline-gray-200 bg-gray-50 rounded-xl ${showMoreInfo ? "" : "hidden"}`}
+      >
         {properties.map(([title, value]) => (
           <div className="text-sm title-case" key={title}>
             <span className="font-medium">{snakeToTitleCase(title)}</span>:{" "}

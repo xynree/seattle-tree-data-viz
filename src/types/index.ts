@@ -28,7 +28,7 @@ export interface TreeProperties {
   COMPTYPE: number;
   SEGKEY: number;
   UNITTYPE: string;
-  OWNERSHIP: "PRIV" | "CITY";
+  OWNERSHIP: "PRIV" | "CITY" | "SDOT";
   CURRENT_STATUS_DATE: number | null;
   LAST_VERIFY_DATE: number | null;
   PLANTED_DATE: number | null;

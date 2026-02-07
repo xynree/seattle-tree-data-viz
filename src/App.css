@@ -7,7 +7,3 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
-
-.property-feature {
-  @apply flex flex-col gap-2 w-full rounded-2xl bg-gray-50 border border-gray-100 p-4;
-}
