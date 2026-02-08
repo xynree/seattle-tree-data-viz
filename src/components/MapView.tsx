@@ -15,6 +15,7 @@ import AttributionChip from "./AttributionChip";
 import MousePopup from "./MousePopup";
 import ResetViewControl from "./ResetViewControl";
 import { TreeLabelLayer } from "../layers/TreeLabelLayer";
+import TreeList from "./TreeList/TreeList";
 
 export default function MapView() {
   const { viewState, setViewState, userLocation } = useUserLocation();
@@ -63,6 +64,17 @@ export default function MapView() {
       : base;
   }, [options, selected, trees, viewState, userLocation]);
 
+  function onSelectTree(tree: TreeFeature) {
+    setViewState({
+      ...viewState,
+      latitude: tree.geometry.coordinates[1],
+      longitude: tree.geometry.coordinates[0],
+      transitionDuration: 300,
+      zoom: 20,
+    });
+    setSelected(tree);
+  }
+
   return (
     <div className="w-screen h-screen">
       {/* Overlays */}
@@ -78,7 +90,12 @@ export default function MapView() {
           <div className="flex gap-2 flex-col md:flex-row w-full md:w-auto md:mt-0 h-[calc(100vh-64px)] justify-end md:justify-between md:items-start pb-6 md:pb-0">
             {/* Left Panels */}
             <div className="flex flex-col justify-between gap-2 h-1/3 md:h-full">
-              <FeatureCard feature={selected} setFeature={setSelected} />
+              {selected ? (
+                <FeatureCard feature={selected} setFeature={setSelected} />
+              ) : (
+                <TreeList trees={allTrees} onSelectTree={onSelectTree} />
+              )}
+
               <AttributionChip />
             </div>
 

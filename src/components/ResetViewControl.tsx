@@ -18,7 +18,7 @@ export default function ResetViewControl({
         longitude: userLocation.longitude,
         latitude: userLocation.latitude,
         zoom: 18,
-        transitionDuration: 1000,
+        transitionDuration: 300,
       });
     }
   };

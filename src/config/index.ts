@@ -26,5 +26,6 @@ export const featureTextFormatters: Partial<
   SHAPE_LAT: (value: number) => `${value.toFixed(4)}°`,
   DIAM: (value: number) => `${value} in`,
   OWNERSHIP: (value: string) => (value === "PRIV" ? "Private" : value),
-  PRIMARYDISTRICTCD: (value: string) => value.replace("DISTRICT", "").trim(),
+  PRIMARYDISTRICTCD: (value: string) =>
+    value?.replace("DISTRICT", "").trim() ?? "",
 };
