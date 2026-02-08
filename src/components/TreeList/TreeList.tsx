@@ -1,6 +1,5 @@
 import { featureTextFormatters } from "../../config";
 import type { TreeFeature } from "../../types";
-import AggregationCard from "../AggregationCard";
 import { useMemo, useState } from "react";
 import {
   Table,
@@ -25,7 +24,7 @@ export default function TreeList({
   onSelectTree?: (tree: TreeFeature) => void;
 }) {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<OrderBy>("name");
 
@@ -81,7 +80,7 @@ export default function TreeList({
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    setRowsPerPage(parseInt(event.target.value, 25));
     setPage(0);
   };
 
@@ -121,57 +120,54 @@ export default function TreeList({
   ];
 
   return (
-    <div className="flex flex-col gap-2 z-2 overflow-y-auto">
-      <AggregationCard features={trees} />
-      <div className="bg-white p-2 rounded-xl overflow-y-auto">
-        <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
-          <Table size="small" sx={{ fontSize: "13px" }}>
-            <TableHead>
-              <TableRow>
+    <div className="bg-white p-2 rounded-xl overflow-y-auto z-2">
+      <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
+        <Table size="small" sx={{ fontSize: "13px" }}>
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell key={column.label} sx={{ fontWeight: "bold" }}>
+                  <TableSortLabel
+                    active={orderBy === column.id}
+                    direction={orderBy === column.id ? order : "asc"}
+                    onClick={() => handleSort(column.id)}
+                  >
+                    {column.label}
+                  </TableSortLabel>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {paginatedTrees.map((tree) => (
+              <TableRow
+                key={tree.id}
+                onClick={() => onSelectTree?.(tree)}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.04)" },
+                  cursor: "pointer",
+                }}
+              >
                 {columns.map((column) => (
-                  <TableCell key={column.label} sx={{ fontWeight: "bold" }}>
-                    <TableSortLabel
-                      active={orderBy === column.id}
-                      direction={orderBy === column.id ? order : "asc"}
-                      onClick={() => handleSort(column.id)}
-                    >
-                      {column.label}
-                    </TableSortLabel>
+                  <TableCell key={column.label} sx={{ fontSize: "13px" }}>
+                    {column.renderCell(tree)}
                   </TableCell>
                 ))}
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {paginatedTrees.map((tree) => (
-                <TableRow
-                  key={tree.id}
-                  onClick={() => onSelectTree?.(tree)}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.04)" },
-                    cursor: "pointer",
-                  }}
-                >
-                  {columns.map((column) => (
-                    <TableCell key={column.label} sx={{ fontSize: "13px" }}>
-                      {column.renderCell(tree)}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 50, 100]}
-            component="div"
-            count={sortedTrees.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </TableContainer>
-      </div>
+            ))}
+          </TableBody>
+        </Table>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 50, 100]}
+          component="div"
+          count={sortedTrees.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </TableContainer>
     </div>
   );
 }
