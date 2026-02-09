@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 import type { TreeFeature } from "../types";
 import { COMMON_GENUS_NAME_LOOKUP } from "../constants";
 
@@ -41,7 +41,16 @@ export default function FilterPanel({
       .map(([genus, count]) => ({ genus, count }));
   }, [trees]);
 
-  const handleGenusToggle = (genus: string) => {
+  const nonVisibleSelectedGenuses = useMemo(() => {
+    return selectedGenuses
+      .filter((genus) => !topGenuses.some((g) => g.genus === genus))
+      .map((g) => ({
+        genus: g,
+        count: 0,
+      }));
+  }, [selectedGenuses, topGenuses]);
+
+  function handleGenusToggle(genus: string) {
     setSelectedGenuses((prev) => {
       if (prev.includes(genus)) {
         // Remove genus from selection
@@ -51,11 +60,7 @@ export default function FilterPanel({
         return [...prev, genus];
       }
     });
-  };
-
-  const clearFilters = () => {
-    setSelectedGenuses([]);
-  };
+  }
 
   return (
     topGenuses.length > 0 && (
@@ -65,11 +70,11 @@ export default function FilterPanel({
         className="scrollbar-hide flex gap-2 z-10 relative overflow-x-auto"
       >
         <div className="flex gap-2">
-          {topGenuses.map(({ genus }) => (
+          {[...nonVisibleSelectedGenuses, ...topGenuses].map(({ genus }) => (
             <div
               key={genus}
               onClick={() => handleGenusToggle(genus)}
-              className={`whitespace-nowrap shadow-md border border-gray-300 bg-white text-sm font-medium p-2 px-3 rounded-2xl h-min cursor-pointer ${selectedGenuses.includes(genus) ? "border border-green-700 !bg-green-600 text-white" : ""}`}
+              className={`whitespace-nowrap shadow-md border border-gray-300 bg-white text-sm font-medium p-2 px-3 rounded-2xl h-min cursor-pointer ${selectedGenuses.includes(genus) ? "border border-green-700 bg-green-600! text-white" : ""}`}
             >
               {COMMON_GENUS_NAME_LOOKUP[genus]
                 ? COMMON_GENUS_NAME_LOOKUP[genus]
@@ -80,7 +85,7 @@ export default function FilterPanel({
 
         {selectedGenuses.length > 0 && (
           <button
-            onClick={clearFilters}
+            onClick={() => setSelectedGenuses([])}
             className="p-2 px-4 text-sm rounded-2xl flex items-center gap-2 text-green-800 bg-green-100 border-green-500 border font-medium"
           >
             Clear

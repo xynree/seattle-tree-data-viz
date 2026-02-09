@@ -127,58 +127,64 @@ export default function TreeList({
         Visible Trees
       </h2>
 
-      <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
-        <Table
-          size="small"
-          sx={{ fontSize: "13px" }}
-          onMouseOut={() => setHovered(null)}
-        >
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell key={column.label} sx={{ fontWeight: "bold" }}>
-                  <TableSortLabel
-                    active={orderBy === column.id}
-                    direction={orderBy === column.id ? order : "asc"}
-                    onClick={() => handleSort(column.id)}
-                  >
-                    {column.label}
-                  </TableSortLabel>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedTrees.map((tree) => (
-              <TableRow
-                key={tree.id}
-                onClick={() => onSelectTree?.(tree)}
-                onMouseOver={() => setHovered(tree)}
-                sx={{
-                  "&:last-child td, &:last-child th": { border: 0 },
-                  "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.04)" },
-                  cursor: "pointer",
-                }}
-              >
+      {trees.length ? (
+        <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
+          <Table
+            size="small"
+            sx={{ fontSize: "13px" }}
+            onMouseOut={() => setHovered(null)}
+          >
+            <TableHead>
+              <TableRow>
                 {columns.map((column) => (
-                  <TableCell key={column.label} sx={{ fontSize: "13px" }}>
-                    {column.renderCell(tree)}
+                  <TableCell key={column.label} sx={{ fontWeight: "bold" }}>
+                    <TableSortLabel
+                      active={orderBy === column.id}
+                      direction={orderBy === column.id ? order : "asc"}
+                      onClick={() => handleSort(column.id)}
+                    >
+                      {column.label}
+                    </TableSortLabel>
                   </TableCell>
                 ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 50, 100]}
-          component="div"
-          count={sortedTrees.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {paginatedTrees.map((tree) => (
+                <TableRow
+                  key={tree.id}
+                  onClick={() => onSelectTree?.(tree)}
+                  onMouseOver={() => setHovered(tree)}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.04)" },
+                    cursor: "pointer",
+                  }}
+                >
+                  {columns.map((column) => (
+                    <TableCell key={column.label} sx={{ fontSize: "13px" }}>
+                      {column.renderCell(tree)}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 50, 100]}
+            component="div"
+            count={sortedTrees.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </TableContainer>
+      ) : (
+        <div className="bg-gray-50 border border-gray-100 w-56 h-36 flex items-center justify-center text-gray-500 text-xs rounded-2xl">
+          No matching trees in view
+        </div>
+      )}
     </div>
   );
 }
