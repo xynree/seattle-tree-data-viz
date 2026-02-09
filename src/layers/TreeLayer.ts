@@ -8,9 +8,15 @@ type TreeLayerProps = {
   trees: TreeFeature[];
   options: ControlOptions;
   selectedId: string | number | null;
+  hoveredId: string | number | null;
 };
 
-export function TreeLayer({ trees, options, selectedId }: TreeLayerProps) {
+export function TreeLayer({
+  trees,
+  options,
+  selectedId,
+  hoveredId,
+}: TreeLayerProps) {
   if (!trees.length) return null;
 
   return new ScenegraphLayer({
@@ -32,10 +38,15 @@ export function TreeLayer({ trees, options, selectedId }: TreeLayerProps) {
     getColor: (f: TreeFeature) => {
       const isPlanned = f.properties?.CURRENT_STATUS === "PLANNED";
       const isSelected = selectedId && f.id === selectedId;
+      const isHovered = hoveredId && f.id === hoveredId;
 
       if (isPlanned) {
         // Gray color with reduced opacity for planned trees
         return [255, 255, 255, 120] as [number, number, number, number];
+      }
+
+      if (isHovered) {
+        return [255, 100, 100, 255];
       }
 
       if (isSelected) {
@@ -48,14 +59,17 @@ export function TreeLayer({ trees, options, selectedId }: TreeLayerProps) {
     },
     getScale: (f: TreeFeature) => {
       const baseScale = computeScale({ f, scaleBySize: options.scaleBySize });
-      if (selectedId && f.id === selectedId) {
+      const isHovered = hoveredId && f.id === hoveredId;
+      const isSelected = selectedId && f.id === selectedId;
+
+      if (isSelected || isHovered) {
         return baseScale.map((s) => s * 1.05) as [number, number, number];
       }
       return baseScale;
     },
     updateTriggers: {
-      getColor: [selectedId],
-      getScale: [selectedId],
+      getColor: [selectedId, hoveredId],
+      getScale: [selectedId, hoveredId],
     },
     _lighting: "pbr",
   });

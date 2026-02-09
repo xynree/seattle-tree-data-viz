@@ -20,6 +20,7 @@ export default function MapView() {
   const { viewState, setViewState, userLocation } = useUserLocation();
   const allTrees = useTreesInView(viewState);
   const [selected, setSelected] = useState<TreeFeature>(null);
+  const [hovered, setHovered] = useState<TreeFeature>(null);
   const [popup, setPopup] = useState<{
     x: number;
     y: number;
@@ -66,6 +67,7 @@ export default function MapView() {
         trees,
         options,
         selectedId: selected?.id,
+        hoveredId: hovered?.id,
       }),
       options.showUserGPS ? UserLocationLayer({ userLocation }) : [],
     ];
@@ -80,7 +82,7 @@ export default function MapView() {
           }),
         ]
       : base;
-  }, [options, selected, trees, viewState, userLocation]);
+  }, [options, selected, trees, viewState, userLocation, hovered]);
 
   function onSelectTree(tree: TreeFeature) {
     setViewState({
@@ -111,7 +113,11 @@ export default function MapView() {
               {selected ? (
                 <FeatureCard feature={selected} setFeature={setSelected} />
               ) : (
-                <TreeList trees={trees} onSelectTree={onSelectTree} />
+                <TreeList
+                  trees={trees}
+                  onSelectTree={onSelectTree}
+                  setHovered={setHovered}
+                />
               )}
 
               <AttributionChip />

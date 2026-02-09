@@ -1,6 +1,6 @@
 import { featureTextFormatters } from "../../config";
 import type { TreeFeature } from "../../types";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type Dispatch, type SetStateAction } from "react";
 import {
   Table,
   TableBody,
@@ -19,9 +19,11 @@ type OrderBy = "name" | "size" | "planted" | "lastUpdated";
 export default function TreeList({
   trees = [],
   onSelectTree,
+  setHovered,
 }: {
   trees: TreeFeature[];
   onSelectTree?: (tree: TreeFeature) => void;
+  setHovered: Dispatch<SetStateAction<TreeFeature>>;
 }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
@@ -126,7 +128,11 @@ export default function TreeList({
       </h2>
 
       <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
-        <Table size="small" sx={{ fontSize: "13px" }}>
+        <Table
+          size="small"
+          sx={{ fontSize: "13px" }}
+          onMouseOut={() => setHovered(null)}
+        >
           <TableHead>
             <TableRow>
               {columns.map((column) => (
@@ -147,6 +153,7 @@ export default function TreeList({
               <TableRow
                 key={tree.id}
                 onClick={() => onSelectTree?.(tree)}
+                onMouseOver={() => setHovered(tree)}
                 sx={{
                   "&:last-child td, &:last-child th": { border: 0 },
                   "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.04)" },
