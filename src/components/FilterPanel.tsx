@@ -22,15 +22,6 @@ export default function FilterPanel({
     }
   }
 
-  useEffect(() => {
-    // If a selected genus is not in the current trees, remove it from the selected genuses
-    setSelectedGenuses((prev) =>
-      prev.filter((genus) =>
-        trees.some((tree) => tree.properties.GENUS === genus),
-      ),
-    );
-  }, [setSelectedGenuses, trees]);
-
   // Calculate top genuses from the trees data
   const topGenuses = useMemo(() => {
     const genusCounts = new Map<string, number>();
