@@ -80,7 +80,7 @@ export default function TreeList({
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 25));
+    setRowsPerPage(Number(event.target.value));
     setPage(0);
   };
 
@@ -120,7 +120,11 @@ export default function TreeList({
   ];
 
   return (
-    <div className="bg-white p-2 rounded-xl overflow-y-auto z-2">
+    <div className="flex flex-col gap-3 bg-white p-2 rounded-2xl overflow-y-auto z-2">
+      <h2 className="p-2 text-center text-sm text-gray-500 border-b border-b-gray-200">
+        Visible Trees
+      </h2>
+
       <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
         <Table size="small" sx={{ fontSize: "13px" }}>
           <TableHead>

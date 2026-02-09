@@ -4,7 +4,11 @@ import type { ControlOptions, TreeFeature } from "../types";
 
 // Returns bounds in degrees
 export function getViewportBounds(viewState: MapViewState) {
-  const vp = new WebMercatorViewport(viewState);
+  const vp = new WebMercatorViewport({
+    ...viewState,
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
 
   // screen coordinates of the four corners
   const corners = [

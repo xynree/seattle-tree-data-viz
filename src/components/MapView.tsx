@@ -10,7 +10,6 @@ import { BaseMapLayer, TreeLayer, UserLocationLayer } from "../layers";
 import FeatureCard from "./FeatureCard/FeatureCard";
 import ControlsCard from "./ControlsCard";
 import FilterPanel from "./FilterPanel";
-import WelcomeOverlay from "./WelcomeOverlay";
 import AttributionChip from "./AttributionChip";
 import MousePopup from "./MousePopup";
 import ResetViewControl from "./ResetViewControl";
@@ -30,16 +29,35 @@ export default function MapView() {
   const [options, setOptions] = useState(defaultControls);
   const [selectedGenuses, setSelectedGenuses] = useState<string[]>([]);
 
-  // Filter trees based on selected genuses
-  const trees = useMemo(
-    () =>
-      selectedGenuses.length
-        ? allTrees.filter((tree) =>
-            selectedGenuses.includes(tree.properties.GENUS),
-          )
-        : allTrees,
-    [allTrees, selectedGenuses],
-  );
+  const trees = useMemo(() => {
+    // First apply control options filters (showRemoved, showPrivate, showPlanned)
+    let filtered = allTrees;
+
+    if (!options.showRemoved) {
+      filtered = filtered.filter(
+        (t) => t.properties.CURRENT_STATUS !== "REMOVED",
+      );
+    }
+
+    if (!options.showPrivate) {
+      filtered = filtered.filter((t) => t.properties.OWNERSHIP !== "PRIV");
+    }
+
+    if (!options.showPlanned) {
+      filtered = filtered.filter(
+        (t) => t.properties.CURRENT_STATUS !== "PLANNED",
+      );
+    }
+
+    // Then apply genus filter
+    if (selectedGenuses.length > 0) {
+      filtered = filtered.filter((tree) =>
+        selectedGenuses.includes(tree.properties.GENUS),
+      );
+    }
+
+    return filtered;
+  }, [allTrees, selectedGenuses, options]);
 
   const layers = useMemo(() => {
     const base = [
@@ -93,7 +111,7 @@ export default function MapView() {
               {selected ? (
                 <FeatureCard feature={selected} setFeature={setSelected} />
               ) : (
-                <TreeList trees={allTrees} onSelectTree={onSelectTree} />
+                <TreeList trees={trees} onSelectTree={onSelectTree} />
               )}
 
               <AttributionChip />
@@ -110,11 +128,9 @@ export default function MapView() {
             </div>
           </div>
         </div>
-
-        {/* <AggregationCard features={trees} /> */}
       </div>
 
-      <WelcomeOverlay />
+      {/* <WelcomeOverlay /> */}
       {popup ? <MousePopup popup={popup} /> : ""}
 
       {/* Map */}

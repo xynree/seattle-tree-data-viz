@@ -9,6 +9,23 @@ const DEBOUNCE_MS = 300;
 export function useTreesInView(viewState: MapViewState) {
   const [trees, setTrees] = useState<TreeFeature[]>([]);
   const timer = useRef<number | null>(null);
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  // Track window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     if (viewState.zoom < TREE_ZOOM_THRESHOLD) {
@@ -32,7 +49,7 @@ export function useTreesInView(viewState: MapViewState) {
     return () => {
       if (timer.current) window.clearTimeout(timer.current);
     };
-  }, [viewState]);
+  }, [viewState, windowSize]);
 
   return trees;
 }

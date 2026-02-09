@@ -1,6 +1,6 @@
 import { ScenegraphLayer } from "@deck.gl/mesh-layers";
 import { COORDINATE_SYSTEM } from "deck.gl";
-import { computeScale, hashToUnit, processTrees } from "../helpers";
+import { computeScale, hashToUnit } from "../helpers";
 import type { ControlOptions, TreeFeature } from "../types";
 import { TREE_MODEL_PATH } from "../constants";
 
@@ -15,7 +15,7 @@ export function TreeLayer({ trees, options, selectedId }: TreeLayerProps) {
 
   return new ScenegraphLayer({
     id: "trees",
-    data: processTrees(trees, options),
+    data: trees,
     pickable: true,
     scenegraph: TREE_MODEL_PATH,
     getPosition: (f: TreeFeature) => [
