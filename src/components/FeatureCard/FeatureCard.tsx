@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import type { TreeFeature } from "../../types";
+import type { TreeFeature, TreeProperties } from "../../types";
 import useStreetViewLink from "../../hooks/useStreetViewLink";
 import { featureTextFormatters } from "../../config";
 import { formatDate, snakeToTitleCase } from "../../helpers";
@@ -16,16 +16,27 @@ export default function FeatureCard({
 }) {
   const streetViewLink = useStreetViewLink(feature?.geometry.coordinates);
 
+  const properties = useMemo(() => {
+    if (feature?.properties) {
+      return Object.entries(feature.properties).filter(([, value]) => value);
+    } else return [];
+  }, [feature]) as [
+    keyof TreeProperties,
+    TreeProperties[keyof TreeProperties],
+  ][];
+
   const [showMoreInfo, setShowMoreInfo] = useState(false);
 
-  const properties = useMemo(() => {
-    if (feature) {
-      return Object.entries(feature.properties).filter(([, value]) => value);
-    } else return null;
-  }, [feature]);
-
-  return properties ? (
-    <div className="flex flex-col gap-2 overflow-auto relative w-full md:w-110 h-min bg-white p-4 rounded-2xl z-10 mr-auto">
+  return (
+    <div
+      className={`flex flex-col gap-2 overflow-auto w-full h-full md:w-120 p-6 rounded-4xl z-10 mr-auto transition-all duration-500 ease-in-out
+        bg-linear-to-br from-white/80 to-white/40 
+        backdrop-blur-2xl 
+        border border-white/50 
+        inset-shadow-md inset-shadow-white 
+        shadow-2xl shadow-slate-200/30
+        ${feature ? "opacity-100 transform translate-x-0 pointer-events-auto" : "opacity-0 transform translate-x-full pointer-events-none"}`}
+    >
       <div className="flex justify-between items-center">
         {/* Header Left */}
         <div className="flex gap-2">
@@ -46,11 +57,11 @@ export default function FeatureCard({
           {/* Title & Subtitle */}
           <div className="flex flex-col text-md">
             <div className="font-bold">
-              {feature.properties.COMMON_NAME || "Unknown Tree"}
+              {feature?.properties.COMMON_NAME || "Unknown Tree"}
             </div>
 
             <div className="italic text-xs">
-              {feature.properties.SCIENTIFIC_NAME || "—"}
+              {feature?.properties.SCIENTIFIC_NAME || "—"}
             </div>
           </div>
         </div>
@@ -58,7 +69,7 @@ export default function FeatureCard({
         {/* Header Right */}
         <div className="flex gap-1">
           <span
-            className="hover:bg-gray-100 hover:text-gray-800 transition-all px-3 py-2 rounded-full material-symbols-outlined cursor-pointer !text-[18px] text-gray-400"
+            className="hover:bg-white/20 hover:border-gray-600/20 hover:text-gray-800 transition-all px-3 py-2 rounded-xl material-symbols-outlined cursor-pointer !text-[24px] border border-gray-300 text-gray-400"
             onClick={() => setFeature(null)}
           >
             close
@@ -67,29 +78,29 @@ export default function FeatureCard({
       </div>
 
       <WikipediaSummary
-        key={feature.properties.SCIENTIFIC_NAME}
-        scientificName={feature.properties.SCIENTIFIC_NAME}
+        key={feature?.properties.SCIENTIFIC_NAME}
+        scientificName={feature?.properties.SCIENTIFIC_NAME}
       />
 
       {/* Address */}
       <div className="flex gap-2 flex-wrap overflow-clip">
         <FeaturePanel
           title="Address"
-          content={feature.properties.UNITDESC}
+          content={feature?.properties.UNITDESC}
           style="content"
         />
         <FeaturePanel
           title="District"
           content={featureTextFormatters.PRIMARYDISTRICTCD(
-            feature.properties.PRIMARYDISTRICTCD,
+            feature?.properties.PRIMARYDISTRICTCD,
           )}
           style="content"
         />
-        {feature.properties.OWNERSHIP ? (
+        {feature?.properties.OWNERSHIP ? (
           <FeaturePanel
             title="Ownership"
             content={featureTextFormatters.OWNERSHIP(
-              feature.properties.OWNERSHIP,
+              feature?.properties.OWNERSHIP,
             )}
             style="content"
           />
@@ -102,16 +113,16 @@ export default function FeatureCard({
       <div className="flex gap-2 w-full">
         <FeaturePanel
           title="Planted"
-          content={formatDate(feature.properties.PLANTED_DATE)}
+          content={formatDate(feature?.properties.PLANTED_DATE)}
         />
         <FeaturePanel
           title="Last Verified"
-          content={formatDate(feature.properties.LAST_VERIFY_DATE)}
+          content={formatDate(feature?.properties.LAST_VERIFY_DATE)}
         />
       </div>
 
       {/* Size */}
-      <TreeSizeTimeline diameter={feature.properties.DIAM} />
+      <TreeSizeTimeline diameter={feature?.properties.DIAM} />
 
       {/* Properties */}
 
@@ -119,14 +130,14 @@ export default function FeatureCard({
         className="cursor-pointer flex items-center justify-between px-2"
         onClick={() => setShowMoreInfo(!showMoreInfo)}
       >
-        <span className="text-sm">More Info</span>
+        <span className="subtitle">More Info</span>
         <span className="material-symbols-outlined text-gray-600">
           {showMoreInfo ? "arrow_drop_down" : "arrow_drop_up"}
         </span>
       </button>
 
       <div
-        className={`flex flex-col md:overflow-auto gap-1 p-3 py-2 outline outline-gray-200 bg-gray-50 rounded-xl ${showMoreInfo ? "" : "hidden"}`}
+        className={`flex flex-col md:overflow-auto gap-1 surface-100 ${showMoreInfo ? "" : "hidden"}`}
       >
         {properties.map(([title, value]) => (
           <div className="text-sm title-case" key={title}>
@@ -138,7 +149,5 @@ export default function FeatureCard({
         ))}
       </div>
     </div>
-  ) : (
-    ""
   );
 }

@@ -22,7 +22,7 @@ export default function WikipediaSummary({
 
   return (
     <>
-      <div className="relative bg-gray-200 rounded-3xl my-2 h-72 min-h-72 min-48">
+      <div className="relative bg-gray-800/10 rounded-3xl my-2 h-72 min-h-72 min-48">
         {galleryImages.length ? (
           <div className="h-72 rounded-3xl">
             <img
@@ -77,6 +77,7 @@ export default function WikipediaSummary({
         ) : null}
       </div>
 
+      <h3 className="subtitle">About</h3>
       {summary?.extract_html ? (
         <div className="flex flex-col gap-1">
           <span
@@ -94,7 +95,7 @@ export default function WikipediaSummary({
           </span>
         </div>
       ) : isLoading ? (
-        <div className="h-48 w-full bg-gray-100 animate-pulse rounded-xl"></div>
+        <div className="h-48 w-full bg-gray-800/10 animate-pulse rounded-xl"></div>
       ) : (
         ""
       )}

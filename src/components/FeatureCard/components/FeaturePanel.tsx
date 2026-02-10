@@ -19,9 +19,9 @@ export default function FeaturePanel({
   }, [style]);
 
   return (
-    <div className="shrink-0 flex-1 flex flex-col gap-1 rounded-xl bg-gray-50 border border-gray-100 p-2 px-3">
+    <div className="shrink-0 flex-1 flex flex-col gap-1 surface-100">
       <div className="flex justify-between items-center">
-        <span className="text-xs text-gray-500">{title}</span>
+        <span className="subtitle">{title}</span>
         <span className="text-sm font-semibold text-gray-800">{subtitle}</span>
       </div>
       <span className={styleClass}>{content}</span>
