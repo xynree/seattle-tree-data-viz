@@ -147,11 +147,11 @@ export default function AggregationPanel({
                 stats.total > 0 ? (count / stats.total) * 100 : 0;
 
               const ratingColors: Record<number, string> = {
-                5: "emerald",
-                4: "green",
-                3: "yellow",
-                2: "orange",
-                1: "red",
+                5: "bg-emerald-500",
+                4: "bg-green-500",
+                3: "bg-yellow-500",
+                2: "bg-orange-500",
+                1: "bg-red-500",
               };
 
               const ratingLabels: Record<number, string> = {
@@ -189,7 +189,7 @@ export default function AggregationPanel({
                   </div>
                   <div className="h-2 w-full bg-slate-50 rounded-full overflow-hidden border border-slate-100 flex">
                     <div
-                      className={`h-full bg-${color}-500 rounded-full transition-all duration-1000 ease-out shadow-sm`}
+                      className={`h-full ${color} rounded-full transition-all duration-1000 ease-out shadow-sm`}
                       style={{ width: `${percentage}%` }}
                     />
                   </div>
