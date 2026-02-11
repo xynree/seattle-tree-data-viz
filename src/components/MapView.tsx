@@ -1,3 +1,4 @@
+import { Drawer, useMediaQuery, useTheme } from "@mui/material";
 import { useMemo, useState } from "react";
 import DeckGL from "@deck.gl/react";
 import type { MapViewState, PickingInfo } from "deck.gl";
@@ -31,6 +32,9 @@ export default function MapView() {
   }>(null);
 
   const [options, setOptions] = useState(defaultControls);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [selectedGenuses, setSelectedGenuses] = useState<string[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<string[]>(["INSVC"]);
@@ -102,16 +106,62 @@ export default function MapView() {
   }
 
   return (
-    <div className="w-screen h-screen">
-      {/* Overlays */}
-      <div className="absolute flex flex-col gap-2 h-full w-full overflow-hidden">
-        <div className="flex gap-2 flex-col md:flex-row w-full md:w-auto md:mt-0 h-full justify-end md:justify-between md:items-start">
-          {/* Left Panels */}
-          <div className="flex flex-col z-2 w-md overflow-hidden gap-2 h-1/3 md:h-full glass-panel">
-            <div className="flex flex-col gap-2 p-6">
-              <h2 className="text-xl font-semibold">🔎 Seattle Tree Spy </h2>
+    <div className="w-screen h-screen relative bg-slate-50">
+      {/* Mobile Menu Button */}
+      {isMobile && (
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-md shadow-lg p-3 rounded-2xl border border-slate-100 material-symbols-outlined text-slate-700 hover:bg-white active:scale-95 transition-all"
+        >
+          menu
+        </button>
+      )}
+
+      {/* Main UI Overlay */}
+      <div className="absolute inset-0 z-10 pointer-events-none flex flex-col md:flex-row">
+        {/* Sidebar Drawer */}
+        <Drawer
+          variant={isMobile ? "temporary" : "persistent"}
+          open={isMobile ? sidebarOpen : true}
+          onClose={() => setSidebarOpen(false)}
+          anchor="left"
+          slotProps={{
+            paper: {
+              className: isMobile
+                ? "w-full"
+                : "w-md pointer-events-auto border-none bg-transparent shadow-none",
+            },
+          }}
+          hideBackdrop={!isMobile}
+          sx={{
+            pointerEvents: isMobile ? "auto" : "none",
+            "& .MuiDrawer-paper": {
+              boxShadow: "none",
+              border: "none",
+              background: isMobile ? "white" : "transparent",
+            },
+          }}
+        >
+          <div
+            className={`flex flex-col h-full drop-shadow-md glass-panel overflow-hidden pointer-events-auto`}
+          >
+            <div className="flex flex-col gap-1 p-6 pb-2">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-bold tracking-tight text-slate-800">
+                  🔎 Seattle Tree Spy
+                </h2>
+                {isMobile && (
+                  <button
+                    onClick={() => setSidebarOpen(false)}
+                    className="material-symbols-outlined text-slate-400 hover:text-slate-600 p-1 rounded-full hover:bg-slate-100"
+                  >
+                    close
+                  </button>
+                )}
+              </div>
               <div className="subtitle">Exploring SDOT Trees</div>
             </div>
+
             <SelectionButtonGroup
               sidebarSelection={sidebarSelection}
               setSidebarSelection={setSidebarSelection}
@@ -141,7 +191,10 @@ export default function MapView() {
               )}
             </div>
           </div>
+        </Drawer>
 
+        {/* Top/Right Controls */}
+        <div className="ml-auto flex justify-end items-start">
           <ResetViewControl
             viewState={viewState}
             setViewState={setViewState}
