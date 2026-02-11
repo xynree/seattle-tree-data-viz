@@ -113,7 +113,6 @@ export default function MapView() {
               <h2 className="text-xl font-semibold">🔎 Seattle Tree Spy </h2>
               <div className="subtitle">Exploring SDOT Trees</div>
             </div>
-            <Divider />
             <SelectionButtonGroup
               sidebarSelection={sidebarSelection}
               setSidebarSelection={setSidebarSelection}

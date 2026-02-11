@@ -17,7 +17,7 @@ const ControlButton = ({
       onClick={onToggle}
       className={`flex items-center justify-center p-3 rounded-xl cursor-pointer transition-all duration-200 group flex-1 ${
         checked
-          ? "bg-green-50 text-green-800 border-green-100 shadow-sm"
+          ? "bg-green-50 text-green-800 border-green-800/30"
           : "bg-transparent text-slate-400 hover:bg-black/5 border-transparent"
       } border`}
     >

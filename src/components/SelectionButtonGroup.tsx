@@ -11,7 +11,7 @@ export function SelectionButton({
 }) {
   return (
     <button
-      className={`cursor-pointer p-2 hover:bg-white/50 w-full rounded-xl subtitle transition-all duration-300 ease-in-out ${selected ? "bg-white/70 text-gray-800" : "bg-white/0 "}`}
+      className={`cursor-pointer p-2 w-full rounded-xl subtitle transition-all duration-300 ease-in-out ${selected ? "bg-white/70 text-gray-800 drop-shadow-sm" : "hover:bg-white/50 bg-white/0 "}`}
       onClick={onClick}
     >
       {title}
@@ -27,22 +27,24 @@ export default function SelectionButtonGroup({
   setSidebarSelection: Dispatch<SetStateAction<"filter" | "list" | "agg">>;
 }) {
   return (
-    <div className="flex gap-4 p-2 px-6 text-sm">
-      <SelectionButton
-        title="View"
-        onClick={() => setSidebarSelection("filter")}
-        selected={sidebarSelection === "filter"}
-      />
-      <SelectionButton
-        title="Stats"
-        onClick={() => setSidebarSelection("agg")}
-        selected={sidebarSelection === "agg"}
-      />
-      <SelectionButton
-        title="List"
-        onClick={() => setSidebarSelection("list")}
-        selected={sidebarSelection === "list"}
-      />
+    <div className="flex flex-col gap-2 bg-gray-300/20 py-2 border border-x-0 border-gray-200">
+      <div className="flex gap-4 p-2 px-6 text-sm">
+        <SelectionButton
+          title="View"
+          onClick={() => setSidebarSelection("filter")}
+          selected={sidebarSelection === "filter"}
+        />
+        <SelectionButton
+          title="Stats"
+          onClick={() => setSidebarSelection("agg")}
+          selected={sidebarSelection === "agg"}
+        />
+        <SelectionButton
+          title="List"
+          onClick={() => setSidebarSelection("list")}
+          selected={sidebarSelection === "list"}
+        />
+      </div>
     </div>
   );
 }
