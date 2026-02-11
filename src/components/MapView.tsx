@@ -14,7 +14,6 @@ import ResetViewControl from "./ResetViewControl";
 import { TreeLabelLayer } from "../layers/TreeLabelLayer";
 import TreeList from "./TreeList/TreeList";
 import AggregationCard from "./AggregationCard";
-import { Divider } from "@mui/material";
 import SelectionButtonGroup from "./SelectionButtonGroup";
 
 export default function MapView() {
@@ -148,13 +147,10 @@ export default function MapView() {
             setViewState={setViewState}
             userLocation={userLocation}
           />
-
-          {/* Right Panels */}
-          <div className="flex h-full gap-2 md:ml-auto absolute md:static top-14 p-4">
-            <FeatureCard feature={selected} setFeature={setSelected} />
-          </div>
         </div>
       </div>
+
+      <FeatureCard feature={selected} setFeature={setSelected} />
 
       {/* <WelcomeOverlay /> */}
       {popup ? <MousePopup popup={popup} /> : ""}
