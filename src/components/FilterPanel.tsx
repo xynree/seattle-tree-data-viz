@@ -110,18 +110,19 @@ export default function FilterPanel({
     });
   }, [allGenuses, search]);
 
-  const topGenuses = useMemo(() => {
-    return allGenuses.slice(0, 15);
-  }, [allGenuses]);
+  const displayedGenuses = useMemo(() => {
+    const baseList = visibleGenuses;
 
-  const nonVisibleSelectedGenuses = useMemo(() => {
-    return selectedGenuses
-      .filter((genus) => !topGenuses.some((g) => g.genus === genus))
-      .map((g) => ({
-        genus: g,
-        count: 0,
+    // Identify selected items that aren't in the current view
+    const extraSelected = selectedGenuses
+      .filter((genus) => !baseList.some((g) => g.genus === genus))
+      .map((genus) => ({
+        genus,
+        count: allGenuses.find((g) => g.genus === genus)?.count || 0,
       }));
-  }, [selectedGenuses, topGenuses]);
+
+    return [...extraSelected, ...baseList];
+  }, [visibleGenuses, selectedGenuses, allGenuses]);
 
   function handleToggle(
     value: string,
@@ -152,19 +153,17 @@ export default function FilterPanel({
         </div>
 
         <div className="flex flex-col gap-1 overflow-y-auto scrollbar-hide pr-1 cursor-pointer">
-          {[...nonVisibleSelectedGenuses, ...visibleGenuses].map(
-            ({ genus, count }) => (
-              <FilterItem
-                key={genus}
-                label={COMMON_GENUS_NAME_LOOKUP[genus] || genus}
-                count={count}
-                checked={selectedGenuses.includes(genus)}
-                onToggle={() =>
-                  handleToggle(genus, selectedGenuses, setSelectedGenuses)
-                }
-              />
-            ),
-          )}
+          {displayedGenuses.map(({ genus, count }) => (
+            <FilterItem
+              key={genus}
+              label={COMMON_GENUS_NAME_LOOKUP[genus] || genus}
+              count={count}
+              checked={selectedGenuses.includes(genus)}
+              onToggle={() =>
+                handleToggle(genus, selectedGenuses, setSelectedGenuses)
+              }
+            />
+          ))}
         </div>
 
         {selectedGenuses.length > 0 && (
