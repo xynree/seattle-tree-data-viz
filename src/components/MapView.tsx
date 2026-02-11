@@ -16,6 +16,7 @@ import { TreeLabelLayer } from "../layers/TreeLabelLayer";
 import TreeList from "./TreeList/TreeList";
 import AggregationPanel from "./AggregationPanel";
 import SelectionButtonGroup from "./SelectionButtonGroup";
+import AttributionChip from "./AttributionChip";
 
 export default function MapView() {
   const { viewState, setViewState, userLocation } = useUserLocation();
@@ -247,16 +248,9 @@ export default function MapView() {
         }}
       />
 
-      {/* Open Street Map Attribution */}
-      <div className="absolute bottom-0 right-0 bg-white/80 backdrop-blur-sm px-2 py-1 text-xs z-10 rounded-tl-md">
-        <a
-          href="https://www.openstreetmap.org/copyright"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-gray-700 hover:text-gray-900 hover:underline"
-        >
-          Map data © OpenStreetMap
-        </a>
+      {/* Attribution */}
+      <div className="absolute bottom-0 right-0 z-10 p-4">
+        <AttributionChip />
       </div>
     </div>
   );

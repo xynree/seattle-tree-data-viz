@@ -1,7 +1,6 @@
 import { featureTextFormatters } from "../../config";
 import type { TreeFeature } from "../../types";
 import { useMemo, useState, type Dispatch, type SetStateAction } from "react";
-import { timeAgo } from "../../helpers";
 
 import {
   Table,
