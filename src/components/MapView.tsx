@@ -10,17 +10,22 @@ import { BaseMapLayer, TreeLayer, UserLocationLayer } from "../layers";
 import FeatureCard from "./FeatureCard/FeatureCard";
 import ControlsCard from "./ControlsCard";
 import FilterPanel from "./FilterPanel";
-import AttributionChip from "./AttributionChip";
 import MousePopup from "./MousePopup";
 import ResetViewControl from "./ResetViewControl";
 import { TreeLabelLayer } from "../layers/TreeLabelLayer";
 import TreeList from "./TreeList/TreeList";
+import AggregationCard from "./AggregationCard";
+import { ButtonGroup, Button, Divider } from "@mui/material";
+import SelectionButtonGroup from "./SelectionButtonGroup";
 
 export default function MapView() {
   const { viewState, setViewState, userLocation } = useUserLocation();
   const allTrees = useTreesInView(viewState);
   const [selected, setSelected] = useState<TreeFeature>(null);
   const [hovered, setHovered] = useState<TreeFeature>(null);
+  const [sidebarSelection, setSidebarSelection] = useState<
+    "filter" | "agg" | "list"
+  >("filter");
   const [popup, setPopup] = useState<{
     x: number;
     y: number;
@@ -99,36 +104,47 @@ export default function MapView() {
     <div className="w-screen h-screen">
       {/* Overlays */}
       <div className="absolute flex flex-col gap-2 h-full w-full overflow-hidden">
-        <div className="flex flex-col gap-2 p-4 sm:mt-auto md:mt-0">
-          {/* Top Panel */}
-          {/* <FilterPanel
-            trees={allTrees}
-            selectedGenuses={selectedGenuses}
-            setSelectedGenuses={setSelectedGenuses}
-          /> */}
-
-          <div className="flex gap-2 flex-col md:flex-row w-full md:w-auto md:mt-0 h-[calc(100vh-64px)] justify-end md:justify-between md:items-start pb-6 md:pb-0">
-            {/* Left Panels */}
-            <div className="flex flex-col justify-between gap-2 h-1/3 md:h-full">
-              {/* <TreeList
-                trees={trees}
-                onSelectTree={onSelectTree}
-                setHovered={setHovered}
-              />
-
-              <AttributionChip /> */}
+        <div className="flex gap-2 flex-col md:flex-row w-full md:w-auto md:mt-0 h-full justify-end md:justify-between md:items-start">
+          {/* Left Panels */}
+          <div className="flex flex-col z-2 w-md overflow-hidden gap-2 h-1/3 md:h-full glass-panel">
+            <div className="flex flex-col gap-2 p-6">
+              <h2 className="text-xl font-semibold">🔎 Seattle Tree Spy </h2>
+              <div className="subtitle">Exploring SDOT Trees</div>
             </div>
+            <Divider />
+            <SelectionButtonGroup
+              sidebarSelection={sidebarSelection}
+              setSidebarSelection={setSidebarSelection}
+            />
 
-            {/* Right Panels */}
-            <div className="flex flex-col h-full gap-2 md:ml-auto absolute md:static top-14">
-              {/* <ResetViewControl
-                viewState={viewState}
-                setViewState={setViewState}
-                userLocation={userLocation}
-              />
-              <ControlsCard options={options} setOptions={setOptions} /> */}
-              <FeatureCard feature={selected} setFeature={setSelected} />
+            <div className="flex flex-col p-4">
+              {sidebarSelection === "filter" ? (
+                <FilterPanel
+                  trees={allTrees}
+                  selectedGenuses={selectedGenuses}
+                  setSelectedGenuses={setSelectedGenuses}
+                />
+              ) : sidebarSelection === "agg" ? (
+                <AggregationCard trees={trees} />
+              ) : (
+                <TreeList
+                  trees={trees}
+                  onSelectTree={onSelectTree}
+                  setHovered={setHovered}
+                />
+              )}
             </div>
+          </div>
+
+          {/* Right Panels */}
+          <div className="flex flex-col h-full gap-2 md:ml-auto absolute md:static top-14 p-4">
+            <ResetViewControl
+              viewState={viewState}
+              setViewState={setViewState}
+              userLocation={userLocation}
+            />
+
+            <FeatureCard feature={selected} setFeature={setSelected} />
           </div>
         </div>
       </div>

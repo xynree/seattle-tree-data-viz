@@ -20,7 +20,7 @@ export const GENUS_LOOKUP = {
   "Fraxinus pennsylvanica ‘Johnso": "Fraxinus_pennsylvanica",
 };
 
-export const COMMON_GENUS_NAME_LOOKUP = {
+export const COMMON_GENUS_NAME_LOOKUP: Record<string, string> = {
   Acer: "Maple",
   Quercus: "Oak",
   Fraxinus: "Ash",

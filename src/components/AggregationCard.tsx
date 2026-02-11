@@ -3,9 +3,9 @@ import type { TreeFeature } from "../types";
 import Chart from "chart.js/auto";
 
 export default function AggregationCard({
-  features,
+  trees,
 }: {
-  features: TreeFeature[] | null;
+  trees: TreeFeature[] | null;
 }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const chartRef = useRef<Chart | null>(null);
@@ -14,14 +14,14 @@ export default function AggregationCard({
   const DEBOUNCE_DELAY = 1000; // 1s debounce
 
   useEffect(() => {
-    if (!canvasRef.current || !features.length) return;
+    if (!canvasRef.current || !trees.length) return;
 
     if (debounceTimer.current) {
       clearTimeout(debounceTimer.current);
     }
 
     debounceTimer.current = setTimeout(() => {
-      const genusCounts = features.reduce(
+      const genusCounts = trees.reduce(
         (acc, curr) => {
           if (curr.properties.GENUS) {
             acc[curr.properties.GENUS] = (acc[curr.properties.GENUS] || 0) + 1;
@@ -63,7 +63,7 @@ export default function AggregationCard({
         chartRef.current = null;
       }
     };
-  }, [features]);
+  }, [trees]);
 
   return (
     <div className="text-sm flex flex-col items-center gap-2 bg-white shadow-sm relative p-3 rounded-xl z-10 h-min">

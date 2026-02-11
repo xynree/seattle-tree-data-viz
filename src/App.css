@@ -18,6 +18,9 @@
   scrollbar-width: none; /* Firefox */
 }
 
+.glass-panel {
+  @apply bg-linear-to-br from-white/80 to-white/40 backdrop-blur-2xl border border-white/50 inset-shadow-sm inset-shadow-white shadow-2xl shadow-slate-200/30;
+}
 
 .surface-100 {
   @apply rounded-xl bg-white/40 border border-gray-500/20 p-2 px-3;

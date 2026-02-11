@@ -48,7 +48,7 @@ export default function ResetViewControl({
     <div className="flex gap-2 ">
       <button
         onClick={handleLocate}
-        className="w-full flex min-w-18 md:w-full bg-white p-2.5 rounded-xl shadow-md z-10 hover:bg-gray-100 transition-colors items-center justify-center text-blue-600"
+        className="ml-auto w-full flex min-w-18 md:w-min bg-white p-2.5 rounded-xl shadow-md z-10 hover:bg-gray-100 transition-colors items-center justify-center text-blue-600"
         title="Go to my location"
       >
         <span className="material-symbols-outlined">location_searching</span>
@@ -56,7 +56,7 @@ export default function ResetViewControl({
 
       <button
         onClick={handleOrthographicView}
-        className="w-full flex min-w-18 md:w-full bg-white p-2.5 rounded-xl shadow-md z-10 hover:bg-gray-100 transition-colors items-center justify-center text-blue-600"
+        className="w-full flex min-w-18 md:w-min bg-white p-2.5 rounded-xl shadow-md z-10 hover:bg-gray-100 transition-colors items-center justify-center text-blue-600"
         title="Toggle orthographic view"
       >
         <span className="material-symbols-outlined">recenter</span>
