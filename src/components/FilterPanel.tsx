@@ -45,9 +45,9 @@ const FilterItem = ({
     >
       {label}
     </span>
-    {count >= 0 && (
+    {count > 0 && (
       <span
-        className={`ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full transition-colors ${
+        className={`ml-auto text-[10px] font-bold px-2 py-1 rounded-full transition-colors ${
           checked
             ? "bg-green-100 text-green-700"
             : "bg-slate-100 text-slate-400 group-hover:bg-slate-200 group-hover:text-slate-500"
@@ -98,7 +98,7 @@ export default function FilterPanel({
 
   const visibleGenuses = useMemo(() => {
     if (!search.trim()) {
-      return allGenuses.slice(0, 20);
+      return allGenuses.slice(0, 15);
     }
     const searchLower = search.toLowerCase();
     return allGenuses.filter(({ genus }) => {
@@ -111,7 +111,7 @@ export default function FilterPanel({
   }, [allGenuses, search]);
 
   const topGenuses = useMemo(() => {
-    return allGenuses.slice(0, 20);
+    return allGenuses.slice(0, 15);
   }, [allGenuses]);
 
   const nonVisibleSelectedGenuses = useMemo(() => {
@@ -151,7 +151,7 @@ export default function FilterPanel({
           </span>
         </div>
 
-        <div className="flex flex-col gap-1 max-h-[400px] overflow-y-auto scrollbar-hide pr-1 cursor-pointer">
+        <div className="flex flex-col gap-1 overflow-y-auto scrollbar-hide pr-1 cursor-pointer">
           {[...nonVisibleSelectedGenuses, ...visibleGenuses].map(
             ({ genus, count }) => (
               <FilterItem

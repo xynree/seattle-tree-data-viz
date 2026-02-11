@@ -11,7 +11,7 @@ export function SelectionButton({
 }) {
   return (
     <button
-      className={`cursor-pointer p-2 hover:bg-white/50 w-full rounded-xl transition-all duration-300 ease-in-out ${selected ? "bg-white/70" : "bg-white/0"}`}
+      className={`cursor-pointer p-2 hover:bg-white/50 w-full rounded-xl subtitle transition-all duration-300 ease-in-out ${selected ? "bg-white/70 text-gray-800" : "bg-white/0 "}`}
       onClick={onClick}
     >
       {title}

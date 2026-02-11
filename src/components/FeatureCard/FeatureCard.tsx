@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import type { TreeFeature, TreeProperties } from "../../types";
 import useStreetViewLink from "../../hooks/useStreetViewLink";
 import { featureTextFormatters } from "../../config";
-import { formatDate, snakeToTitleCase } from "../../helpers";
+import { formatDate, snakeToTitleCase, timeAgo } from "../../helpers";
 import WikipediaSummary from "./components/WikipediaSummary";
 import TreeSizeTimeline from "./components/TreeSizeTimeline";
 import FeaturePanel from "./components/FeaturePanel";
@@ -112,7 +112,7 @@ export default function FeatureCard({
         />
         <FeaturePanel
           title="Last Verified"
-          content={formatDate(feature?.properties.LAST_VERIFY_DATE)}
+          content={timeAgo(feature?.properties.LAST_VERIFY_DATE)}
         />
       </div>
 

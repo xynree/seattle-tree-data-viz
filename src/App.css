@@ -9,8 +9,9 @@
   --text-lg: 18px;
 }
 
+@layer components {
 
-.scrollbar-hide::-webkit-scrollbar {
+  .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 .scrollbar-hide {
@@ -29,3 +30,5 @@
 .subtitle {
   @apply text-xs text-black/40 uppercase font-semibold;
 }
+}
+

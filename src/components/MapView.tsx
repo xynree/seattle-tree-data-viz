@@ -98,7 +98,6 @@ export default function MapView() {
       latitude: tree.geometry.coordinates[1],
       longitude: tree.geometry.coordinates[0],
       transitionDuration: 300,
-      zoom: 20,
     });
     setSelected(tree);
   }
@@ -120,7 +119,7 @@ export default function MapView() {
               setSidebarSelection={setSidebarSelection}
             />
 
-            <div className="flex flex-col p-4">
+            <div className="flex-1 flex flex-col min-h-0 overflow-hidden p-4">
               {sidebarSelection === "filter" ? (
                 <FilterPanel
                   trees={allTrees}
