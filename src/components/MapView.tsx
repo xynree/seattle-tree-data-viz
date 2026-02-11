@@ -8,14 +8,13 @@ import { useUserLocation, useTreesInView } from "../hooks";
 import { BaseMapLayer, TreeLayer, UserLocationLayer } from "../layers";
 
 import FeatureCard from "./FeatureCard/FeatureCard";
-import ControlsCard from "./ControlsCard";
 import FilterPanel from "./FilterPanel";
 import MousePopup from "./MousePopup";
 import ResetViewControl from "./ResetViewControl";
 import { TreeLabelLayer } from "../layers/TreeLabelLayer";
 import TreeList from "./TreeList/TreeList";
 import AggregationCard from "./AggregationCard";
-import { ButtonGroup, Button, Divider } from "@mui/material";
+import { Divider } from "@mui/material";
 import SelectionButtonGroup from "./SelectionButtonGroup";
 
 export default function MapView() {
@@ -32,26 +31,31 @@ export default function MapView() {
     feature: TreeFeature;
   }>(null);
 
-  const [options, setOptions] = useState(defaultControls);
+  const [options] = useState(defaultControls);
+
   const [selectedGenuses, setSelectedGenuses] = useState<string[]>([]);
+  const [selectedStatus, setSelectedStatus] = useState<string[]>(["INSVC"]);
+  const [selectedOwnership, setSelectedOwnership] = useState<string[]>([
+    "SDOT",
+    "CITY",
+    "PRIV",
+  ]);
 
   const trees = useMemo(() => {
     // First apply control options filters (showRemoved, showPrivate, showPlanned)
     let filtered = allTrees;
 
-    if (!options.showRemoved) {
-      filtered = filtered.filter(
-        (t) => t.properties.CURRENT_STATUS !== "REMOVED",
+    // Apply ownership filter
+    if (selectedOwnership.length > 0) {
+      filtered = filtered.filter((t) =>
+        selectedOwnership.includes(t.properties.OWNERSHIP),
       );
     }
 
-    if (!options.showPrivate) {
-      filtered = filtered.filter((t) => t.properties.OWNERSHIP !== "PRIV");
-    }
-
-    if (!options.showPlanned) {
-      filtered = filtered.filter(
-        (t) => t.properties.CURRENT_STATUS !== "PLANNED",
+    // Apply status filter
+    if (selectedStatus.length > 0) {
+      filtered = filtered.filter((t) =>
+        selectedStatus.includes(t.properties.CURRENT_STATUS),
       );
     }
 
@@ -61,9 +65,8 @@ export default function MapView() {
         selectedGenuses.includes(tree.properties.GENUS),
       );
     }
-
     return filtered;
-  }, [allTrees, selectedGenuses, options]);
+  }, [allTrees, selectedOwnership, selectedStatus, selectedGenuses]);
 
   const layers = useMemo(() => {
     const base = [
@@ -123,6 +126,10 @@ export default function MapView() {
                   trees={allTrees}
                   selectedGenuses={selectedGenuses}
                   setSelectedGenuses={setSelectedGenuses}
+                  selectedStatus={selectedStatus}
+                  setSelectedStatus={setSelectedStatus}
+                  selectedOwnership={selectedOwnership}
+                  setSelectedOwnership={setSelectedOwnership}
                 />
               ) : sidebarSelection === "agg" ? (
                 <AggregationCard trees={trees} />
@@ -136,14 +143,14 @@ export default function MapView() {
             </div>
           </div>
 
-          {/* Right Panels */}
-          <div className="flex flex-col h-full gap-2 md:ml-auto absolute md:static top-14 p-4">
-            <ResetViewControl
-              viewState={viewState}
-              setViewState={setViewState}
-              userLocation={userLocation}
-            />
+          <ResetViewControl
+            viewState={viewState}
+            setViewState={setViewState}
+            userLocation={userLocation}
+          />
 
+          {/* Right Panels */}
+          <div className="flex h-full gap-2 md:ml-auto absolute md:static top-14 p-4">
             <FeatureCard feature={selected} setFeature={setSelected} />
           </div>
         </div>

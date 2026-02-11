@@ -29,7 +29,7 @@ export default function FeatureCard({
 
   return (
     <div
-      className={`flex flex-col gap-2 overflow-auto w-full h-min md:w-120 p-6 rounded-4xl z-10 mr-auto transition-all duration-500 ease-in-out glass-panel
+      className={`flex flex-col gap-2 overflow-auto w-full h-min max-h-full md:w-120 p-6 rounded-4xl z-10 mr-auto transition-all duration-500 ease-in-out glass-panel
         ${feature ? "opacity-100 transform translate-x-0 pointer-events-auto" : "opacity-0 transform translate-x-full pointer-events-none"}`}
     >
       <div className="flex justify-between items-center">
