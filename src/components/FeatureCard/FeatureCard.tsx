@@ -17,13 +17,25 @@ export default function FeatureCard({
 }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const streetViewLink = useStreetViewLink(feature?.geometry.coordinates);
+  const [lastFeature, setLastFeature] = useState<TreeFeature | null>(feature);
+
+  if (feature && feature !== lastFeature) {
+    setLastFeature(feature);
+  }
+
+  const displayedFeature = feature || lastFeature;
+
+  const streetViewLink = useStreetViewLink(
+    displayedFeature?.geometry.coordinates,
+  );
 
   const properties = useMemo(() => {
-    if (feature?.properties) {
-      return Object.entries(feature.properties).filter(([, value]) => value);
+    if (displayedFeature?.properties) {
+      return Object.entries(displayedFeature.properties).filter(
+        ([, value]) => value,
+      );
     } else return [];
-  }, [feature]) as [
+  }, [displayedFeature]) as [
     keyof TreeProperties,
     TreeProperties[keyof TreeProperties],
   ][];
@@ -39,9 +51,10 @@ export default function FeatureCard({
       slotProps={{
         paper: {
           className:
-            "w-full md:w-md bg-white/95 backdrop-blur-xl border-r border-gray-200 shadow-none pointer-events-auto",
+            "w-full md:w-md border-r border-gray-200 pointer-events-auto",
         },
       }}
+      transitionDuration={400}
       sx={{
         pointerEvents: isMobile ? "auto" : "none",
       }}
@@ -64,10 +77,10 @@ export default function FeatureCard({
             {/* Title & Subtitle */}
             <div className="flex flex-col">
               <div className="font-bold text-xl text-slate-800 leading-tight">
-                {feature?.properties.COMMON_NAME || "Unknown Tree"}
+                {displayedFeature?.properties.COMMON_NAME || "Unknown Tree"}
               </div>
               <div className="italic text-xs text-slate-500">
-                {feature?.properties.SCIENTIFIC_NAME || "—"}
+                {displayedFeature?.properties.SCIENTIFIC_NAME || "—"}
               </div>
             </div>
           </div>
@@ -79,7 +92,7 @@ export default function FeatureCard({
               href={streetViewLink}
               target="_blank"
               title="View on Google Maps"
-              className="flex items-center justify-center bg-green-50 hover:bg-green-100 border border-emerald-900/20 text-green-800 transition-colors p-3 rounded-full h-12 w-12 cursor-pointer"
+              className="flex items-center justify-center bg-green-50 hover:bg-green-100 border border-emerald-900/20 text-green-800 transition-colors p-3 rounded-lg h-12 w-12 cursor-pointer"
             >
               <span className="material-symbols-outlined text-[20px]">
                 map_search
@@ -89,8 +102,8 @@ export default function FeatureCard({
         </div>
 
         <WikipediaSummary
-          key={feature?.properties.SCIENTIFIC_NAME}
-          scientificName={feature?.properties.SCIENTIFIC_NAME}
+          key={displayedFeature?.properties.SCIENTIFIC_NAME}
+          scientificName={displayedFeature?.properties.SCIENTIFIC_NAME}
         />
 
         {/* Info Grid */}
@@ -99,22 +112,22 @@ export default function FeatureCard({
           <div className="flex flex-col gap-3">
             <FeaturePanel
               title="Address"
-              content={feature?.properties.UNITDESC}
+              content={displayedFeature?.properties.UNITDESC}
               style="content"
             />
             <div className="grid grid-cols-2 gap-3">
               <FeaturePanel
                 title="District"
                 content={featureTextFormatters.PRIMARYDISTRICTCD(
-                  feature?.properties.PRIMARYDISTRICTCD,
+                  displayedFeature?.properties.PRIMARYDISTRICTCD,
                 )}
                 style="content"
               />
-              {feature?.properties.OWNERSHIP && (
+              {displayedFeature?.properties.OWNERSHIP && (
                 <FeaturePanel
                   title="Ownership"
                   content={featureTextFormatters.OWNERSHIP(
-                    feature?.properties.OWNERSHIP,
+                    displayedFeature?.properties.OWNERSHIP,
                   )}
                   style="content"
                 />
@@ -126,25 +139,25 @@ export default function FeatureCard({
           <div className="grid grid-cols-2 gap-3">
             <FeaturePanel
               title="Planted"
-              content={formatDate(feature?.properties.PLANTED_DATE)}
+              content={formatDate(displayedFeature?.properties.PLANTED_DATE)}
             />
             <FeaturePanel
               title="Last Verified"
-              content={timeAgo(feature?.properties.LAST_VERIFY_DATE)}
+              content={timeAgo(displayedFeature?.properties.LAST_VERIFY_DATE)}
             />
           </div>
 
           {/* Size */}
-          <TreeSizeTimeline diameter={feature?.properties.DIAM} />
+          <TreeSizeTimeline diameter={displayedFeature?.properties.DIAM} />
         </div>
 
         {/* Properties Section */}
-        <div className="flex flex-col gap-2 mt-4 border-t border-gray-100 pt-6">
+        <div className="flex flex-col gap-2 mt-4 border-t border-gray-100 pt-4">
           <button
             className="cursor-pointer flex items-center justify-between p-2 hover:bg-black/5 rounded-xl transition-colors"
             onClick={() => setShowMoreInfo(!showMoreInfo)}
           >
-            <span className="subtitle">Detailed Tree Data</span>
+            <span className="subtitle">Details</span>
             <span className="material-symbols-outlined text-gray-400">
               {showMoreInfo ? "expand_less" : "expand_more"}
             </span>
@@ -155,13 +168,13 @@ export default function FeatureCard({
           >
             {properties.map(([title, value]) => (
               <div
-                className="flex justify-between items-center py-3 border-b border-gray-50 last:border-0"
+                className="flex justify-between items-center py-3 border-b border-gray-100 last:border-0"
                 key={title}
               >
                 <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
                   {snakeToTitleCase(title)}
                 </span>
-                <span className="text-sm text-slate-700 font-medium">
+                <span className="text-sm text-slate-700 font-medium text-right">
                   {featureTextFormatters[title]?.(value) ?? value}
                 </span>
               </div>

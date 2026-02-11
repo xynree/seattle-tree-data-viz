@@ -107,7 +107,7 @@ export default function MapView() {
       <div className="absolute flex flex-col gap-2 h-full w-full overflow-hidden">
         <div className="flex gap-2 flex-col md:flex-row w-full md:w-auto md:mt-0 h-full justify-end md:justify-between md:items-start">
           {/* Left Panels */}
-          <div className="flex flex-col z-2 w-sm overflow-hidden gap-2 h-1/3 md:h-full glass-panel">
+          <div className="flex flex-col z-2 w-md overflow-hidden gap-2 h-1/3 md:h-full glass-panel">
             <div className="flex flex-col gap-2 p-6">
               <h2 className="text-xl font-semibold">🔎 Seattle Tree Spy </h2>
               <div className="subtitle">Exploring SDOT Trees</div>

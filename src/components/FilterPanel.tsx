@@ -143,7 +143,7 @@ export default function FilterPanel({
   }
 
   return (
-    <div className="flex flex-col gap-12 overflow-y-auto scrollbar-hide">
+    <div className="flex flex-col gap-12 overflow-y-auto scrollbar-hide pb-6">
       <div className="flex flex-col gap-4">
         <ControlsCard options={options} setOptions={setOptions} />
 
