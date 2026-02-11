@@ -1,6 +1,6 @@
 # Seattle Tree Spy 🔎🌲
 
-[![Screenshot](./public/screenshot.jpeg)](https://xynree.github.io/seattle-tree-spy/)
+[![Screenshot](./public/screenshot.gif)](https://xynree.github.io/seattle-tree-spy/)
 
 A high-performance interactive map for exploring Seattle's urban forest in 3D.
 
