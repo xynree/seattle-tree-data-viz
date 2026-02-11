@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { TreeFeature } from "../types";
 import Chart from "chart.js/auto";
+import { COMMON_GENUS_NAME_LOOKUP } from "../constants";
 
 export default function AggregationCard({
   trees,
@@ -32,6 +33,14 @@ export default function AggregationCard({
         {} as Record<string, number>,
       );
 
+      const sortedEntries = Object.entries(genusCounts).sort(
+        ([, a], [, b]) => b - a,
+      );
+      const labels = sortedEntries.map(
+        ([genus]) => COMMON_GENUS_NAME_LOOKUP[genus] || genus,
+      );
+      const data = sortedEntries.map(([, count]) => count);
+
       chartRef.current = new Chart(canvasRef.current, {
         type: "doughnut",
         options: {
@@ -40,17 +49,16 @@ export default function AggregationCard({
               display: false,
             },
             title: {
-              display: true,
-              text: "Distribution of Genuses in View",
+              display: false,
+              text: "Genuses",
             },
           },
         },
         data: {
-          labels: Object.keys(genusCounts),
+          labels,
           datasets: [
             {
-              label: "Trees in Genus: ",
-              data: Object.values(genusCounts).sort((a, b) => b - a),
+              data,
             },
           ],
         },
@@ -66,7 +74,7 @@ export default function AggregationCard({
   }, [trees]);
 
   return (
-    <div className="text-sm flex flex-col items-center gap-2 bg-white shadow-sm relative p-3 rounded-xl z-10 h-min">
+    <div className="text-sm flex flex-col items-center gap-2 bg-white border border-slate-100 shadow-xs relative p-3 rounded-xl z-10 h-min px-6 py-4">
       <canvas ref={canvasRef} />
     </div>
   );

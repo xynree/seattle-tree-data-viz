@@ -13,7 +13,7 @@ import MousePopup from "./MousePopup";
 import ResetViewControl from "./ResetViewControl";
 import { TreeLabelLayer } from "../layers/TreeLabelLayer";
 import TreeList from "./TreeList/TreeList";
-import AggregationCard from "./AggregationCard";
+import AggregationPanel from "./AggregationPanel";
 import SelectionButtonGroup from "./SelectionButtonGroup";
 
 export default function MapView() {
@@ -131,7 +131,7 @@ export default function MapView() {
                   setOptions={setOptions}
                 />
               ) : sidebarSelection === "agg" ? (
-                <AggregationCard trees={trees} />
+                <AggregationPanel trees={trees} />
               ) : (
                 <TreeList
                   trees={trees}
