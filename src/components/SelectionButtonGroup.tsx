@@ -29,7 +29,7 @@ export default function SelectionButtonGroup({
   return (
     <div className="flex gap-4 p-2 px-6 text-sm">
       <SelectionButton
-        title="Filter"
+        title="View"
         onClick={() => setSidebarSelection("filter")}
         selected={sidebarSelection === "filter"}
       />

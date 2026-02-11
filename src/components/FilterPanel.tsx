@@ -1,16 +1,20 @@
 import { useMemo, useState } from "react";
-import type { TreeFeature } from "../types";
+import type { ControlOptions, TreeFeature } from "../types";
 import { COMMON_GENUS_NAME_LOOKUP } from "../constants";
+import ControlsCard from "./ControlsCard";
+import { Divider } from "@mui/material";
 
 const FilterItem = ({
   label,
   count,
   checked,
+
   onToggle,
 }: {
   label: string;
   count?: number;
   checked: boolean;
+
   onToggle: () => void;
 }) => (
   <label
@@ -67,6 +71,8 @@ type FilterPanelProps = {
   setSelectedStatus: React.Dispatch<React.SetStateAction<string[]>>;
   selectedOwnership: string[];
   setSelectedOwnership: React.Dispatch<React.SetStateAction<string[]>>;
+  options: ControlOptions;
+  setOptions: React.Dispatch<React.SetStateAction<ControlOptions>>;
 };
 
 export default function FilterPanel({
@@ -77,6 +83,8 @@ export default function FilterPanel({
   setSelectedStatus,
   selectedOwnership,
   setSelectedOwnership,
+  options,
+  setOptions,
 }: FilterPanelProps) {
   const allGenuses = useMemo(() => {
     const genusCounts = new Map<string, number>();
@@ -137,6 +145,10 @@ export default function FilterPanel({
   return (
     <div className="flex flex-col gap-12 overflow-y-auto scrollbar-hide">
       <div className="flex flex-col gap-4">
+        <ControlsCard options={options} setOptions={setOptions} />
+
+        <Divider />
+
         <div className="flex justify-between items-center h-8">
           <h3 className="subtitle px-4">Species</h3>
 

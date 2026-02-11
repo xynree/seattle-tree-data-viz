@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 
 type Order = "asc" | "desc";
-type OrderBy = "name" | "size" | "planted" | "lastUpdated";
+type OrderBy = "name" | "size" | "planted";
 
 export default function TreeList({
   trees = [],
@@ -49,10 +49,6 @@ export default function TreeList({
         case "planted":
           aValue = a.properties.PLANTED_DATE ?? 0;
           bValue = b.properties.PLANTED_DATE ?? 0;
-          break;
-        case "lastUpdated":
-          aValue = a.properties.LAST_VERIFY_DATE ?? 0;
-          bValue = b.properties.LAST_VERIFY_DATE ?? 0;
           break;
         default:
           aValue = a.properties.COMMON_NAME;
@@ -115,7 +111,6 @@ export default function TreeList({
                   { id: "name", label: "Species" },
                   { id: "size", label: "Size" },
                   { id: "planted", label: "Planted" },
-                  { id: "lastUpdated", label: "Updated" },
                 ] as const
               ).map((column) => (
                 <TableCell key={column.id} className="border-none px-4 py-3">
@@ -183,11 +178,6 @@ export default function TreeList({
                           tree.properties.PLANTED_DATE,
                         )
                       : "-"}
-                  </span>
-                </TableCell>
-                <TableCell className="border-none px-4 py-3 transition-colors duration-200 group-hover:bg-black/5 rounded-r-2xl">
-                  <span className="text-[11px] text-slate-400 group-hover:text-slate-600 transition-colors">
-                    {timeAgo(tree.properties.LAST_VERIFY_DATE)}
                   </span>
                 </TableCell>
               </TableRow>

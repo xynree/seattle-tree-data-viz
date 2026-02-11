@@ -1,4 +1,38 @@
+import { Tooltip } from "@mui/material";
 import type { ControlOptions } from "../types";
+
+const ControlButton = ({
+  label,
+  icon,
+  checked,
+  onToggle,
+}: {
+  label: string;
+  icon: string;
+  checked: boolean;
+  onToggle: () => void;
+}) => (
+  <Tooltip title={label} arrow placement="top">
+    <button
+      onClick={onToggle}
+      className={`flex items-center justify-center p-3 rounded-xl cursor-pointer transition-all duration-200 group flex-1 ${
+        checked
+          ? "bg-green-50 text-green-800 border-green-100 shadow-sm"
+          : "bg-transparent text-slate-400 hover:bg-black/5 border-transparent"
+      } border`}
+    >
+      <span
+        className={`material-symbols-outlined text-[24px] transition-colors ${
+          checked
+            ? "text-green-600"
+            : "text-slate-400 group-hover:text-slate-500"
+        }`}
+      >
+        {icon}
+      </span>
+    </button>
+  </Tooltip>
+);
 
 type ControlsCardProps = {
   options: ControlOptions;
@@ -9,92 +43,35 @@ export default function ControlsCard({
   options,
   setOptions,
 }: ControlsCardProps) {
-  function handleChange(checked: boolean, id: string) {
-    setOptions({
-      showRemoved: id === "show-removed" ? checked : options.showRemoved,
-      showPrivate: id === "show-private" ? checked : options.showPrivate,
-      showPlanned: id === "show-planned" ? checked : options.showPlanned,
-      scaleBySize: id === "scale-by-size" ? checked : options.scaleBySize,
-      showLabels: id === "show-labels" ? checked : options.showLabels,
-      showUserGPS: id === "show-user-gps" ? checked : options.showUserGPS,
-    });
+  function handleToggle(id: keyof ControlOptions) {
+    setOptions((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
   }
 
   return (
-    <div className="flex flex-col gap-1 bg-white whitespace-nowrap rounded-xl z-10 relative p-4 shadow-md h-full md:h-min">
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          id="show-removed"
-          checked={options.showRemoved}
-          onChange={(e) => handleChange(e.target.checked, e.target.id)}
-        />
-
-        <label htmlFor="show-removed" className="text-sm">
-          Removed
-        </label>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          id="show-planned"
-          checked={options.showPlanned}
-          onChange={(e) => handleChange(e.target.checked, e.target.id)}
-        />
-        <label htmlFor="show-planned" className="text-sm">
-          Planned
-        </label>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          id="show-private"
-          checked={options.showPrivate}
-          onChange={(e) => handleChange(e.target.checked, e.target.id)}
-        />
-        <label htmlFor="show-private" className="text-sm">
-          Privately Owned
-        </label>
-      </div>
-
-      <hr className="my-1" />
-
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          id="scale-by-size"
+    <div className="flex flex-col gap-3">
+      <h3 className="subtitle px-4">Controls</h3>
+      <div className="flex flex-row gap-2 px-2">
+        <ControlButton
+          label="Scale Trees By Size"
+          icon="expand"
           checked={options.scaleBySize}
-          onChange={(e) => handleChange(e.target.checked, e.target.id)}
+          onToggle={() => handleToggle("scaleBySize")}
         />
-        <label htmlFor="scale-by-size" className="text-sm">
-          Scale By Size
-        </label>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          id="show-user-gps"
+        <ControlButton
+          label="Show User Location"
+          icon="my_location"
           checked={options.showUserGPS}
-          onChange={(e) => handleChange(e.target.checked, e.target.id)}
+          onToggle={() => handleToggle("showUserGPS")}
         />
-        <label htmlFor="show-user-gps" className="text-sm">
-          Show User Location
-        </label>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          id="show-labels"
+        <ControlButton
+          label="Toggle Labels"
+          icon="label"
           checked={options.showLabels}
-          onChange={(e) => handleChange(e.target.checked, e.target.id)}
+          onToggle={() => handleToggle("showLabels")}
         />
-        <label htmlFor="show-labels" className="text-sm">
-          Show Labels
-        </label>
       </div>
     </div>
   );

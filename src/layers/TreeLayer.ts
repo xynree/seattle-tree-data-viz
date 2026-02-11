@@ -69,7 +69,7 @@ export function TreeLayer({
     },
     updateTriggers: {
       getColor: [selectedId, hoveredId],
-      getScale: [selectedId, hoveredId],
+      getScale: [selectedId, hoveredId, options.scaleBySize],
     },
     _lighting: "pbr",
   });
