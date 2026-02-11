@@ -137,7 +137,18 @@ export default function FilterPanel({
   return (
     <div className="flex flex-col gap-12">
       <div className="flex flex-col gap-4">
-        <h3 className="subtitle px-4">Species</h3>
+        <div className="flex justify-between items-center h-8">
+          <h3 className="subtitle px-4">Species</h3>
+
+          {selectedGenuses.length > 0 && (
+            <button
+              onClick={() => setSelectedGenuses([])}
+              className="mt-2 cursor-pointer h-6 p-3 px-4 text-xs font-semibold rounded-xl flex items-center justify-center gap-2 text-green-700 bg-green-50 border border-green-200 hover:bg-green-100 transition-colors uppercase tracking-wider"
+            >
+              Clear
+            </button>
+          )}
+        </div>
 
         <div className="relative">
           <input
@@ -165,15 +176,6 @@ export default function FilterPanel({
             />
           ))}
         </div>
-
-        {selectedGenuses.length > 0 && (
-          <button
-            onClick={() => setSelectedGenuses([])}
-            className="mt-2 w-full p-2 text-xs font-semibold rounded-xl flex items-center justify-center gap-2 text-green-700 bg-green-50 border border-green-200 hover:bg-green-100 transition-colors uppercase tracking-wider"
-          >
-            Clear Selection
-          </button>
-        )}
       </div>
 
       <div className="flex flex-col gap-4">
