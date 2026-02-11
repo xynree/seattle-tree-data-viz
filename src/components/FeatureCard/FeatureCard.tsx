@@ -29,14 +29,14 @@ export default function FeatureCard({
 
   return (
     <div
-      className={`flex flex-col gap-2 overflow-auto w-full h-min max-h-full md:w-120 p-6 rounded-4xl z-10 mr-auto transition-all duration-500 ease-in-out glass-panel
+      className={`flex flex-col gap-2 overflow-auto w-full h-min max-h-full md:w-120 p-6 rounded-4xl z-10 mr-auto transition-all duration-500 ease-in-out glass-panel bg-white/90 drop-shadow-lg
         ${feature ? "opacity-100 transform translate-x-0 pointer-events-auto" : "opacity-0 transform translate-x-full pointer-events-none"}`}
     >
       <div className="flex justify-between items-center">
         {/* Header Left */}
         <div className="flex gap-2">
           {/* Map View Button */}
-          <div className="flex items-center bg-green-50 hover:bg-green-100 text-green-800 transition-colors px-3 py-2 text-sm rounded-full cursor-pointer">
+          <div className="flex items-center bg-green-50 hover:bg-green-100 border border-emerald-900/20 text-green-800 transition-colors px-3 py-2 text-sm rounded-full aspect-square cursor-pointer">
             <a
               href={streetViewLink}
               target="_blank"
@@ -51,7 +51,7 @@ export default function FeatureCard({
 
           {/* Title & Subtitle */}
           <div className="flex flex-col text-md">
-            <div className="font-bold">
+            <div className="font-bold text-lg">
               {feature?.properties.COMMON_NAME || "Unknown Tree"}
             </div>
 
@@ -122,21 +122,26 @@ export default function FeatureCard({
       {/* Properties */}
 
       <button
-        className="cursor-pointer flex items-center justify-between px-2"
+        className="cursor-pointer flex items-center justify-between p-2"
         onClick={() => setShowMoreInfo(!showMoreInfo)}
       >
-        <span className="subtitle">More Info</span>
-        <span className="material-symbols-outlined text-gray-600">
+        <span className="subtitle">Details</span>
+        <span className="material-symbols-outlined text-gray-400">
           {showMoreInfo ? "arrow_drop_down" : "arrow_drop_up"}
         </span>
       </button>
 
       <div
-        className={`flex flex-col md:overflow-auto gap-1 surface-100 ${showMoreInfo ? "" : "hidden"}`}
+        className={`flex flex-col md:overflow-auto gap-2 px-2 pb-3 scrollbar-hide  ${showMoreInfo ? "" : "hidden"}`}
       >
         {properties.map(([title, value]) => (
-          <div className="text-sm title-case" key={title}>
-            <span className="font-medium">{snakeToTitleCase(title)}</span>:{" "}
+          <div
+            className="flex justify-between text-sm title-case border-b border-gray-200 pb-2"
+            key={title}
+          >
+            <span className="text-xs text-gray-400 text-light">
+              {snakeToTitleCase(title)}
+            </span>
             <span className="whitespace-break-spaces">
               {featureTextFormatters[title]?.(value) ?? value}
             </span>

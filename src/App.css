@@ -3,10 +3,10 @@
 
 @theme {
   --font-sans: 'Inter', 'sans serif';
-  --text-xs: 11px;
+  --text-xs: 12px;
   --text-sm: 13px;
-  --text-md: 16px;
-  --text-lg: 18px;
+  --text-md: 15px;
+  --text-lg: 16px;
 }
 
 @layer components {
@@ -24,7 +24,7 @@
 }
 
 .surface-100 {
-  @apply rounded-xl bg-white/40 border border-gray-500/20 p-2 px-3;
+  @apply rounded-xl bg-stone-300/10 border border-gray-400/20 p-2 px-3;
 }
 
 .subtitle {
