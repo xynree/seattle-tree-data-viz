@@ -135,7 +135,7 @@ export default function FilterPanel({
   }
 
   return (
-    <div className="flex flex-col gap-12">
+    <div className="flex flex-col gap-12 overflow-y-auto scrollbar-hide">
       <div className="flex flex-col gap-4">
         <div className="flex justify-between items-center h-8">
           <h3 className="subtitle px-4">Species</h3>
