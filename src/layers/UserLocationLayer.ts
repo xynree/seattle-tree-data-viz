@@ -13,8 +13,6 @@ export function UserLocationLayer({ userLocation }: UserLocationLayerProps) {
 
   const { longitude, latitude, heading } = userLocation;
 
-  console.log("User location heading:", heading);
-
   const layers: (
     | ScatterplotLayer<{ position: [number, number] }>
     | IconLayer<{ position: [number, number]; angle: number }>
