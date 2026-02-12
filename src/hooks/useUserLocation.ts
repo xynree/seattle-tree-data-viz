@@ -10,10 +10,10 @@ export function useUserLocation() {
   const [userLocation, setUserLocation] = useState<{
     longitude: number;
     latitude: number;
+    heading: number | null;
   } | null>(null);
 
   const lastUpdateTime = useRef<number>(0);
-  const DEBOUNCE_INTERVAL = 5000; // 5 seconds
 
   useEffect(() => {
     if (!navigator.geolocation) return;
@@ -21,8 +21,8 @@ export function useUserLocation() {
     // Get initial position
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        const { longitude, latitude } = pos.coords;
-        setUserLocation({ longitude, latitude });
+        const { longitude, latitude, heading } = pos.coords;
+        setUserLocation({ longitude, latitude, heading: heading ?? null });
         lastUpdateTime.current = Date.now();
         if (isWithinSeattle(longitude, latitude)) {
           setViewState((vs: MapViewState) => ({
@@ -36,15 +36,13 @@ export function useUserLocation() {
       { enableHighAccuracy: true },
     );
 
-    // Watch position with debounce
     const watchId = navigator.geolocation.watchPosition(
       (pos) => {
         const now = Date.now();
-        if (now - lastUpdateTime.current >= DEBOUNCE_INTERVAL) {
-          const { longitude, latitude } = pos.coords;
-          setUserLocation({ longitude, latitude });
-          lastUpdateTime.current = now;
-        }
+        const { longitude, latitude, heading } = pos.coords;
+
+        setUserLocation({ longitude, latitude, heading });
+        lastUpdateTime.current = now;
       },
       () => {},
       { enableHighAccuracy: true },
