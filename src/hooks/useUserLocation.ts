@@ -1,5 +1,5 @@
 import type { MapViewState } from "deck.gl";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SEATTLE_FALLBACK_VIEW } from "../constants";
 import { isWithinSeattle } from "../helpers";
 
@@ -12,6 +12,9 @@ export function useUserLocation() {
     latitude: number;
   } | null>(null);
 
+  const lastUpdateTime = useRef<number>(0);
+  const DEBOUNCE_INTERVAL = 5000; // 5 seconds
+
   useEffect(() => {
     if (!navigator.geolocation) return;
 
@@ -20,6 +23,7 @@ export function useUserLocation() {
       (pos) => {
         const { longitude, latitude } = pos.coords;
         setUserLocation({ longitude, latitude });
+        lastUpdateTime.current = Date.now();
         if (isWithinSeattle(longitude, latitude)) {
           setViewState((vs: MapViewState) => ({
             ...vs,
@@ -32,11 +36,15 @@ export function useUserLocation() {
       { enableHighAccuracy: true },
     );
 
-    // Watch position
+    // Watch position with debounce
     const watchId = navigator.geolocation.watchPosition(
       (pos) => {
-        const { longitude, latitude } = pos.coords;
-        setUserLocation({ longitude, latitude });
+        const now = Date.now();
+        if (now - lastUpdateTime.current >= DEBOUNCE_INTERVAL) {
+          const { longitude, latitude } = pos.coords;
+          setUserLocation({ longitude, latitude });
+          lastUpdateTime.current = now;
+        }
       },
       () => {},
       { enableHighAccuracy: true },
